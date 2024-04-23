@@ -1,4 +1,4 @@
-package com.example.job_app
+package com.example.job_app.feature_auth.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog

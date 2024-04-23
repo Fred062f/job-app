@@ -1,4 +1,4 @@
-package com.example.job_app
+package com.example.job_app.feature_auth.repository
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

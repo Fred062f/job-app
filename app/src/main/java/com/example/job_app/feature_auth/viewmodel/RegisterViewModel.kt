@@ -1,20 +1,20 @@
-package com.example.job_app
+package com.example.job_app.feature_auth.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.job_app.feature_auth.repository.AuthRepository
 
-class LoginViewModel : ViewModel() {
+class RegisterViewModel : ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
 
-    var username by mutableStateOf("")
+    var email by mutableStateOf("")
 
     var password by mutableStateOf("")
 
-    fun onUsernameChange(username: String) {
-        this.username = username;
+    fun onEmailChange(email: String) {
+        this.email = email;
     }
 
     fun onPasswordChange(password: String) {
@@ -23,8 +23,8 @@ class LoginViewModel : ViewModel() {
 
     var shouldShowDialog by mutableStateOf(false)
 
-    fun signIn(navigateOnSuccess: () -> Unit) {
-        authRepository.signIn(username, password) { success ->
+    fun createAccount(navigateOnSuccess: () -> Unit) {
+        authRepository.createAccount(email, password) {success ->
             if (success) {
                 navigateOnSuccess()
             } else {

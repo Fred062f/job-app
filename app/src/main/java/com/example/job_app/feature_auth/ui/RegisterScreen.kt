@@ -1,4 +1,4 @@
-package com.example.job_app
+package com.example.job_app.feature_auth.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,16 +12,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.job_app.feature_auth.viewmodel.RegisterViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
 @Composable
-fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    navigateToRegisterScreen: () -> Unit
-    ) {
-    val loginViewModel: LoginViewModel = viewModel()
-    if (loginViewModel.shouldShowDialog) {
-        AlertDialog(text = "Login failure")
+fun RegisterScreen(
+    onRegisterSuccess: () -> Unit,
+    navigateToLoginScreen: () -> Unit) {
+    val registerViewModel: RegisterViewModel = viewModel()
+    if (registerViewModel.shouldShowDialog) {
+        AlertDialog(text = "Register failure")
     }
     Column(
         modifier = Modifier
@@ -31,24 +31,24 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OutlinedTextField(
-            value = loginViewModel.username,
-            onValueChange = { loginViewModel.onUsernameChange(it) },
-            label = { Text("Username") },
+            value = registerViewModel.email,
+            onValueChange = { registerViewModel.onEmailChange(it) },
+            label = { Text("E-mail") },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = loginViewModel.password,
-            onValueChange = { loginViewModel.onPasswordChange(it) },
+            value = registerViewModel.password,
+            onValueChange = { registerViewModel.onPasswordChange(it) },
             label = { Text("Password") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
-        Button(onClick = { loginViewModel.signIn(onLoginSuccess) }) {
-            Text("Login")
+        Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) }) {
+            Text("Create account")
         }
         Text(
-            text = "Don't have an account? Click here",
-            Modifier.clickable { navigateToRegisterScreen() }
+            text = "Already have an account? Click here",
+            Modifier.clickable { navigateToLoginScreen() }
         )
     }
 }
@@ -56,8 +56,8 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun RegisterScreenPreview() {
     JobappTheme {
-        LoginScreen(onLoginSuccess = {}, navigateToRegisterScreen = {})
+        RegisterScreen(onRegisterSuccess = {}, navigateToLoginScreen = {})
     }
 }
