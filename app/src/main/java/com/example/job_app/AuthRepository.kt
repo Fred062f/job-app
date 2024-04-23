@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 class AuthRepository {
-    // Initialize Firebase Auth
+    // Initialwize Firebase Auth
     private var auth: FirebaseAuth = Firebase.auth
 
     fun userIsAuthorized(): Boolean {
