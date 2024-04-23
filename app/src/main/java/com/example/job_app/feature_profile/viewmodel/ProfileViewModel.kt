@@ -1,4 +1,4 @@
-package com.example.job_app.feature_profile.viewmodel
+package com.example.job_app.feature_home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_auth.repository.AuthRepository
