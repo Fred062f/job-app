@@ -33,44 +33,44 @@ fun ProfileScreen(
     val email = profileViewModel.getCurrentUser()
     val lastName = profileViewModel.getCurrentUser()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_background),
+            contentDescription = "Profile Picture"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = "Profile Picture"
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = "$name")
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = "Profile Picture"
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Profile Picture"
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(text = "$name")
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            OutlinedButton(
+                onClick = { navController.navigate("editprofile") },
+                modifier = Modifier.weight(1f)
             ) {
-                OutlinedButton(
-                    onClick = { navController.navigate("editprofile") },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = "Rediger oplysninger")
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                OutlinedButton(
-                    onClick = {navController.navigate("mydocuments") },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(text = "Mine dokumenter")
-                }
+                Text(text = "Rediger oplysninger")
             }
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(text = "$name $lastName")
-            Text(text = "$email")
+            Spacer(modifier = Modifier.width(8.dp))
+            OutlinedButton(
+                onClick = { navController.navigate("mydocuments") },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(text = "Mine dokumenter")
+            }
         }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = "$name $lastName")
+        Text(text = "$email")
     }
+}
