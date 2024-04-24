@@ -1,4 +1,4 @@
-package com.example.job_app
+package com.example.job_app.feature_auth.repository
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 class AuthRepository {
-    // Initialize Firebase Auth
+    // Initialwize Firebase Auth
     private var auth: FirebaseAuth = Firebase.auth
 
     fun userIsAuthorized(): Boolean {

@@ -1,8 +1,9 @@
-package com.example.job_app
+package com.example.job_app.feature_profile.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.example.job_app.feature_auth.repository.AuthRepository
 
-class HomeViewModel : ViewModel() {
+class ProfileViewModel : ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
 
     fun userIsAuthorized(): Boolean {
