@@ -65,18 +65,13 @@ fun RegisterScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(125.dp))
-        Card(
-            modifier = Modifier
-                .size(200.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = CircleShape
-        ) {
+
             Image(
-                painter = painterResource(id = R.drawable.bird),
+                painter = painterResource(id = R.drawable.logo),
                 modifier = Modifier.size(200.dp),
                 contentDescription = "Logo"
             )
-        }
+
         Spacer(modifier = Modifier.height(14.dp))
         OutlinedTextField(
             value = registerViewModel.email,

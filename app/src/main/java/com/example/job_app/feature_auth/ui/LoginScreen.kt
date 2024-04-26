@@ -49,19 +49,13 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Card(
-            modifier = Modifier
-                .size(200.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = CircleShape
-        ) {
+
             // Place your logo image here
             Image(
-                painter = painterResource(id = R.drawable.bird),
+                painter = painterResource(id = R.drawable.logo),
                 modifier = Modifier.size(200.dp),
                 contentDescription = "Logo"
             )
-        }
             Spacer(modifier = Modifier.height(16.dp))
 
         Box(
