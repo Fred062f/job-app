@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.job_app.ui.theme.JobappTheme
 import com.example.job_app.R
 
@@ -24,8 +25,11 @@ fun MyDocumentsScreen() {
     // Antag, at vi har to lister med filnavne for hver sektion
     val cvs = remember { mutableStateListOf("File.txt", "File2.txt") }
     val applications = remember { mutableStateListOf("File.txt", "File2.txt") }
+    val navController = rememberNavController()
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+
+
         // Header for CV-delen
         Text(text = "Mine CV", fontWeight = FontWeight.Bold)
         // Liste over CV'er

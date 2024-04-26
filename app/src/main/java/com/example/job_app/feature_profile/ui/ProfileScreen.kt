@@ -2,6 +2,7 @@ package com.example.job_app.feature_profile.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -39,6 +40,11 @@ fun ProfileScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = "Navigate",
+            modifier = Modifier.clickable { navController.navigate("home") }
+        )
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
             contentDescription = "Profile Picture"

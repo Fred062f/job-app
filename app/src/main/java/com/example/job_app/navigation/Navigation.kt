@@ -15,7 +15,7 @@ import com.example.job_app.feature_profile.ui.ProfileScreen
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "profile") {
+    NavHost(navController = navController, startDestination = "home") {
         composable("login") {
             LoginScreen(
                 onLoginSuccess = { navController.navigate("home") },
