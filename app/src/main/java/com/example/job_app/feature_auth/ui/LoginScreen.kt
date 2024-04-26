@@ -50,9 +50,6 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
-// Logo
-
         Card(
             modifier = Modifier
                 .size(200.dp)
@@ -66,12 +63,11 @@ fun LoginScreen(
                 contentDescription = "Logo"
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-// Wrapper
         Box(
             modifier = Modifier
-                .fillMaxWidth(0.85f)
+                .fillMaxWidth(0.8f)
                 .background(Color.Transparent, RoundedCornerShape(24.dp)) // Set the background here
         ) {
         OutlinedTextField(
@@ -91,20 +87,18 @@ fun LoginScreen(
                 unfocusedBorderColor = Color.White,
                 disabledBorderColor = Color.Transparent,
                 focusedLabelColor = Color.Gray,
-                unfocusedLabelColor = Color.Gray
-            )
-        )
+                unfocusedLabelColor = Color.Gray))
         }
-        Spacer(modifier = Modifier.height(6.dp))
 
+        Spacer(modifier = Modifier.height(6.dp))
 
         OutlinedTextField(
             value = loginViewModel.password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
-            label = {Text("Password", color = Color.White) },
+            label = {Text("Password...", color = Color.White) },
             singleLine = true,
             modifier = Modifier
-            .fillMaxWidth(0.85f),
+            .fillMaxWidth(0.8f),
             shape = RoundedCornerShape(24.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedTextColor = Color.White,
