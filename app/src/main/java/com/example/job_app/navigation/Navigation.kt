@@ -19,7 +19,8 @@ fun Navigation() {
         composable("login") {
             LoginScreen(
                 onLoginSuccess = { navController.navigate("home") },
-                navigateToRegisterScreen = { navController.navigate("register") })
+                navigateToRegisterScreen = { navController.navigate("register") },
+                )
         }
         composable("register") {
             RegisterScreen(onRegisterSuccess = { navController.navigate("home") },
