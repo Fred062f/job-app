@@ -2,6 +2,7 @@ package com.example.job_app.feature_profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_auth.repository.AuthRepository
+import com.google.firebase.auth.FirebaseUser
 
 class ProfileViewModel : ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
@@ -9,7 +10,8 @@ class ProfileViewModel : ViewModel() {
     fun userIsAuthorized(): Boolean {
         return authRepository.userIsAuthorized()
     }
-    fun getCurrentUser(): String? {
+
+    fun getCurrentUser(): FirebaseUser? {
         return authRepository.getCurrentUser()
     }
     fun signOut(navigateOnSuccess: () -> Unit) {

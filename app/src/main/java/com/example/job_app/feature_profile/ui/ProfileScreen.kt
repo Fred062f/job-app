@@ -1,6 +1,5 @@
 package com.example.job_app.feature_profile.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,8 +32,6 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = res.drawable.ic_launcher_background.xml, contentDescription = "Logo")
-
         Text("Logged in as $email")
 
         Button(onClick = { homeViewModel.signOut(navigateOnSuccess) }) {
@@ -47,6 +44,6 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenPreview() {
     JobappTheme {
-        HomeScreen(navigateOnSuccess = {}, userIsNotAuthorized = {})
+        ProfileScreen(navigateOnSuccess = {}, userIsNotAuthorized = {})
     }
 }
