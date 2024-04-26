@@ -44,7 +44,6 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
             .background(Color(0xFF1565C0)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -90,7 +89,7 @@ fun LoginScreen(
                 unfocusedLabelColor = Color.Gray))
         }
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
             value = loginViewModel.password,
@@ -113,7 +112,7 @@ fun LoginScreen(
             ),
             visualTransformation = PasswordVisualTransformation()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Button(onClick = { loginViewModel.signIn(onLoginSuccess) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
