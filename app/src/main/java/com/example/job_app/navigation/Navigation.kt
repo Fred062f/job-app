@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_auth.ui.LoginScreen
 import com.example.job_app.feature_auth.ui.RegisterScreen
-import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.ui.ApplicationInfoScreen
 import com.example.job_app.feature_home.ui.HomeScreen
 import com.example.job_app.feature_profile.ui.ProfileScreen
@@ -27,15 +26,19 @@ fun Navigation() {
         composable("home") {
             HomeScreen(navigateToProfileScreen = { navController.navigate("profile") },
                 navigateToApplicationInfoScreen = { navController.navigate("applicationInfo") },
-                userIsNotAuthorized = {navController.navigate("login")})
+                userIsNotAuthorized = {navController.navigate("login")},
+                navController = navController)
         }
         composable("profile") {
             ProfileScreen(navigateOnSuccess = {navController.navigate("login")},
                 userIsNotAuthorized = {navController.navigate("login")})
         }
-        composable("applicationInfo") {
-            ApplicationInfoScreen(navigateToProfileScreen = { navController.navigate("profile") })
-        }
 
+        composable("applicationInfo/{item}") { navBackStackEntry ->
+            val item = navBackStackEntry.arguments?.getString("item")
+            item?.let {
+                ApplicationInfoScreen(item=it) { navController.navigate("profile") }
+            }
+        }
     }
 }
