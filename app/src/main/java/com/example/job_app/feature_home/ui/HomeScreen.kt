@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
@@ -22,7 +23,8 @@ import com.example.job_app.ui.theme.JobappTheme
 fun HomeScreen(
     navigateToProfileScreen: () -> Unit,
     navigateToApplicationInfoScreen: () -> Unit,
-    userIsNotAuthorized: () -> Unit
+    userIsNotAuthorized: () -> Unit,
+    navController: NavController
 ) {
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
@@ -38,7 +40,7 @@ fun HomeScreen(
         if (getData.size == 0) {
             Text(text = "Ingen kommende ansøgningsfrister")
         }
-        ItemList(items = getData, navigateToApplicationInfoScreen)
+        ItemList(items = getData, navigateToApplicationInfoScreen, navController)
         BottomFloatingActionButton {}
     }
 }
@@ -47,6 +49,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     JobappTheme {
-        HomeScreen(navigateToProfileScreen = {}, navigateToApplicationInfoScreen = {}, userIsNotAuthorized = {})
+        //HomeScreen(navigateToProfileScreen = {}, navigateToApplicationInfoScreen = {}, userIsNotAuthorized = {})
     }
 }

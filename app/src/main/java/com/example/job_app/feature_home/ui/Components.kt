@@ -34,13 +34,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.job_app.feature_home.models.JobApplication
 import java.time.LocalDate
 
 @Composable
 fun ItemList(
     items: List<JobApplication>,
-    navigateToApplicationInfoScreen: () -> Unit
+    navigateToApplicationInfoScreen: () -> Unit,
+    navController: NavController
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
@@ -61,7 +63,7 @@ fun ItemList(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { navigateToApplicationInfoScreen() },
+                            .clickable { navController.navigate("applicationInfo/${item.jobTitle.toString()}") },
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
@@ -169,5 +171,5 @@ fun TopNavigationBar(
 @Composable
 fun PreviewItemList() {
     val items = listOf(JobApplication())
-    ItemList(items, navigateToApplicationInfoScreen = {})
+    //ItemList(items, navigateToApplicationInfoScreen = {})
 }
