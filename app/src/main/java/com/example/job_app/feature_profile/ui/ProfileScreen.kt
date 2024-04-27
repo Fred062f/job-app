@@ -1,5 +1,9 @@
 package com.example.job_app.feature_profile.ui
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +31,8 @@ import com.example.job_app.feature_home.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
+    navigateOnSuccess: () -> Unit,
+    userIsNotAuthorized: () -> Unit,
     navController: NavController
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
