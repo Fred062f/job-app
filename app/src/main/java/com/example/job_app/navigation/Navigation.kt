@@ -30,9 +30,6 @@ fun Navigation() {
             HomeScreen(navigateOnSuccess = { navController.navigate("login") },
                 userIsNotAuthorized = {navController.navigate("login")})
         }
-        composable("profile") {
-            ProfileScreen(navController = navController)
-        }
         composable("editprofile") {
             EditProfileScreenPreview()
         }
