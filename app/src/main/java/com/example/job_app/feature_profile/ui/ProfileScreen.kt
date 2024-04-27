@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.job_app.ui.theme.JobappTheme
 import com.example.job_app.R
 import com.example.job_app.feature_home.ui.HomeScreen
@@ -33,12 +34,12 @@ import com.example.job_app.feature_home.viewmodel.ProfileViewModel
 fun ProfileScreen(
     navigateOnSuccess: () -> Unit,
     userIsNotAuthorized: () -> Unit,
-    navController: NavController
 ) {
     val profileViewModel: ProfileViewModel = viewModel()
     val name = profileViewModel.getCurrentUser()
     val email = profileViewModel.getCurrentUser()
     val lastName = profileViewModel.getCurrentUser()
+    val navController = rememberNavController()
 
     Column(
         modifier = Modifier
