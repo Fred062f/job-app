@@ -1,5 +1,7 @@
 # Job-app
 
+*This is the branch used for the mvp - this will be changed at a later date*
+
 ## Overview
 This is a mobile application aimed at empowering job seekers to structure their job applications effectively and receive feedback to improve their chances of securing employment. By providing tools for organizing application materials and soliciting feedback, the app aims to enhance users' applications and increase their competitiveness in the job market.
 
