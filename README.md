@@ -1,4 +1,4 @@
-# job-app
+# Job-app
 
 ## Overview
 This is a mobile application aimed at empowering job seekers to structure their job applications effectively and receive feedback to improve their chances of securing employment. By providing tools for organizing application materials and soliciting feedback, the app aims to enhance users' applications and increase their competitiveness in the job market.
@@ -13,6 +13,9 @@ This is a mobile application aimed at empowering job seekers to structure their 
 
 ## Strategy
 See the [Branching Strategies](branching_strategies.md) file for details.
+
+## Design
+Visit [FIGMA](https://www.figma.com/files/project/220507053/Team-project?fuid=1343917985853600751) for details.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
