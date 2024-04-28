@@ -19,7 +19,7 @@ import com.example.job_app.ui.theme.JobappTheme
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     navigateToRegisterScreen: () -> Unit
-    ) {
+) {
     val loginViewModel: LoginViewModel = viewModel()
     if (loginViewModel.shouldShowDialog) {
         AlertDialog(text = "Login failure")

@@ -50,4 +50,10 @@ class HomeViewModel : ViewModel() {
             state.value = firestoreRepository.getDataFromFirestore(userId)
         }
     }
+
+    fun recompose(userId: String) {
+        viewModelScope.launch {
+            state.value = firestoreRepository.getDataFromFirestore(userId)
+        }
+    }
 }
