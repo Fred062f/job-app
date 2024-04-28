@@ -16,14 +16,14 @@ import com.example.job_app.feature_profile.ui.ProfileScreen
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "application") {
+    NavHost(navController = navController, startDestination = "login") {
         composable("login") {
             LoginScreen(
-                onLoginSuccess = { navController.navigate("home") },
+                onLoginSuccess = { navController.navigate("application") },
                 navigateToRegisterScreen = { navController.navigate("register") })
         }
         composable("register") {
-            RegisterScreen(onRegisterSuccess = { navController.navigate("home") },
+            RegisterScreen(onRegisterSuccess = { navController.navigate("application") },
                 navigateToLoginScreen = { navController.navigate("login") })
         }
         composable("home") {
