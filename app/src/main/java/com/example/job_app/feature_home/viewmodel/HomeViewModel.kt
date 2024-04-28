@@ -1,7 +1,6 @@
 package com.example.job_app.feature_home.viewmodel
 
 import android.annotation.SuppressLint
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import com.example.job_app.feature_auth.repository.AuthRepository
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
@@ -39,4 +37,17 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun deleteData(userId: String, jobApplicationId: String) {
+        viewModelScope.launch {
+            firestoreRepository.deleteDataFromFirestore(userId, jobApplicationId)
+            state.value = firestoreRepository.getDataFromFirestore(userId)
+        }
+    }
+
+    fun updateData(userId: String, jobApplicationId: String, currentStatus: Boolean) {
+        viewModelScope.launch {
+            firestoreRepository.updateApplicationStatus(userId, jobApplicationId, currentStatus)
+            state.value = firestoreRepository.getDataFromFirestore(userId)
+        }
+    }
 }
