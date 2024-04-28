@@ -19,5 +19,8 @@ See the [Branching Strategies](branching_strategies.md) file for details.
 ## Design
 Visit [FIGMA](figma_link.md) for details.
 
+## Video
+See a [Video](2024-04-28 22-37-04.mp4) showcase here.
+
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
