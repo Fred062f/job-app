@@ -20,7 +20,7 @@ See the [Branching Strategies](branching_strategies.md) file for details.
 Visit [FIGMA](figma_link.md) for details.
 
 ## Video
-See a [Video](https://github.com/Fred062f/job-app/blob/feat/calender/2024-04-28%2022-37-04.mp4) showcase here.
+Download a [Video](https://github.com/Fred062f/job-app/blob/feat/calender/2024-04-28%2022-37-04.mp4) showcase here.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
