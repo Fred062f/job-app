@@ -1,9 +1,9 @@
-package com.example.job_app.feature_home.viewmodel
+package com.example.job_app.feature_application_form.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_auth.repository.AuthRepository
 
-class ProfileViewModel : ViewModel() {
+class ApplicationViewModel: ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
 
     fun userIsAuthorized(): Boolean {
@@ -15,4 +15,5 @@ class ProfileViewModel : ViewModel() {
     fun signOut(navigateOnSuccess: () -> Unit) {
         authRepository.signOut(navigateOnSuccess)
     }
+
 }
