@@ -4,6 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.ButtonDefaults
@@ -27,8 +31,13 @@ import com.example.job_app.feature_home.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfileScreen(
+    navigateOnSuccess: () -> Unit,
+    userIsNotAuthorized: () -> Unit,
     navController: NavController
 ) {
+    val homeViewModel: HomeViewModel = viewModel()
+    // If user is not authorized navigate to login screen
+    if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
     val profileViewModel: ProfileViewModel = viewModel()
     val name = profileViewModel.getCurrentUser()
     val email = profileViewModel.getCurrentUser()
@@ -78,5 +87,18 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Text(text = "$name $lastName")
         Text(text = "$email")
+        Text("Logged in as $email")
+
+        Button(onClick = { homeViewModel.signOut(navigateOnSuccess) }) {
+            Text("Logout")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    JobappTheme {
+        ProfileScreen(navigateOnSuccess = {}, userIsNotAuthorized = {})
     }
 }
