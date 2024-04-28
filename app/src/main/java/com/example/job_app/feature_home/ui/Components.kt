@@ -197,8 +197,9 @@ fun ListItemHeaders() {
 fun ListItem(items: List<JobApplication>) {
     val homeViewModel: HomeViewModel = viewModel()
     val userId = homeViewModel.getCurrentUser()?.uid
+    val sorted = items.sortedBy { it.timestamp }
     LazyColumn {
-        items(items) { item ->
+        items(sorted) { item ->
             Column {
                 androidx.compose.material3.ListItem(
                     headlineContent = { Text(text = item.jobTitle.toString()) },
