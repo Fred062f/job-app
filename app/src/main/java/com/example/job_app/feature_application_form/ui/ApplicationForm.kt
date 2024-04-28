@@ -30,11 +30,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.job_app.feature_application_form.viewmodel.addApplication
+import com.example.job_app.feature_application_form.viewmodel.applicationClass
 import com.example.job_app.ui.theme.JobappTheme
 
 
 @Composable
 fun ApplicationFormScreen() {
+
+
     // Udkommenteret da den skabte problemer med preview - Ved på nuværende tidspunkt ikke om den skal bruges.
     // val applicationViewModel: ApplicationViewModel = viewModel()
     var jobindexLink by remember { mutableStateOf("") }
@@ -43,6 +47,7 @@ fun ApplicationFormScreen() {
     var jobDescription by remember { mutableStateOf("") }
     var coverDate by remember { mutableStateOf("") }
     var coverTime by remember { mutableStateOf("") }
+
 
     // Meget af den følgende kode giver god mening at lave til @Composables, så der ikke er behov for repitation.
     // Det arbejder vi på :^)
@@ -143,8 +148,24 @@ fun ApplicationFormScreen() {
                     .fillMaxWidth()
             )
         }
+        Spacer(modifier = Modifier.size(12.dp))
         Spacer(modifier = Modifier.size(24.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            println("hej")
+
+            addApplication(
+                applicationClass(
+                    jobLink = jobindexLink,
+                    jobTitle = jobTitle,
+                    jobLocation = jobLocation,
+                    jobDescription = jobDescription,
+                    coverDate = coverDate,
+                    coverTime = coverTime
+                )
+            )
+
+
+        }) {
             Text(text = "Opret Ansøgning")
         }
     }
@@ -157,3 +178,6 @@ fun AppFormPreview() {
         ApplicationFormScreen()
     }
 }
+
+
+
