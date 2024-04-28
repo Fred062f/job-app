@@ -1,14 +1,19 @@
 package com.example.job_app.feature_auth.repository
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import com.example.job_app.feature_application_form.viewmodel.applicationClass
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class AuthRepository {
     // Initialwize Firebase Auth
     private var auth: FirebaseAuth = Firebase.auth
+
 
     fun userIsAuthorized(): Boolean {
         // Check if user is signed in (non-null) and update UI accordingly.
@@ -30,7 +35,7 @@ class AuthRepository {
             }
     }
 
-    fun signIn (email: String, password: String, onResult: (Boolean) -> Unit) {
+    fun signIn(email: String, password: String, onResult: (Boolean) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 onResult(true)
@@ -44,4 +49,6 @@ class AuthRepository {
         auth.signOut()
         navigateOnSignOut()
     }
+
+
 }
