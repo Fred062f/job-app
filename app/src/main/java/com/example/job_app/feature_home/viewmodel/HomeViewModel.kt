@@ -19,7 +19,7 @@ class HomeViewModel : ViewModel() {
     fun userIsAuthorized(): Boolean {
         return authRepository.userIsAuthorized()
     }
-    fun getCurrentUser(): FirebaseUser? {
+    fun getCurrentUser(): String? {
         return authRepository.getCurrentUser()
     }
     fun signOut(navigateOnSuccess: () -> Unit) {
