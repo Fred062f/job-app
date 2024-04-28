@@ -15,7 +15,7 @@ This is a mobile application aimed at empowering job seekers to structure their 
 See the [Branching Strategies](branching_strategies.md) file for details.
 
 ## Design
-Visit [FIGMA](https://www.figma.com/files/project/220507053/Team-project?fuid=1343917985853600751) for details.
+Visit [FIGMA](figma_link.md) for details.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
