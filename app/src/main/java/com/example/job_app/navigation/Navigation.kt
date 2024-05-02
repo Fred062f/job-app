@@ -21,7 +21,7 @@ fun ApplicationInfoScreen(item: String, content: () -> Unit) {
 
 @Composable
 fun Navigation() {
-    val navController = rememberNavController()
+    val navCondtroller = rememberNavController()
     NavHost(navController = navController, startDestination = "application") {
         composable("login") {
             LoginScreen(
