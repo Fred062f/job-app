@@ -7,7 +7,9 @@ import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_auth.ui.LoginScreen
 import com.example.job_app.feature_auth.ui.RegisterScreen
+import com.example.job_app.feature_home.ui.AddJobApplicationScreen
 import com.example.job_app.feature_home.ui.HomeScreen
+import com.example.job_app.feature_profile.ui.ProfileScreen
 import com.example.job_app.feature_profile.ui.ProfileScreen
 import com.example.job_app.feature_profile.ui.EditProfileScreenPreview
 import com.example.job_app.feature_profile.ui.EditScreen
@@ -33,14 +35,19 @@ fun Navigation() {
                 navigateToLoginScreen = { navController.navigate("login") })
         }
         composable("home") {
-            HomeScreen(navigateOnSuccess = { navController.navigate("login") },
+            HomeScreen(navigateToLoginScreen = { navController.navigate("login") },
+                userIsNotAuthorized = {navController.navigate("login")},
+                navigateToAddJobApplicationScreen = { navController.navigate("add") })
+        }
+        composable("profile") {
+            ProfileScreen(navigateOnSuccess = {navController.navigate("login")},
                 userIsNotAuthorized = {navController.navigate("login")})
         }
 
         composable("applicationInfo/{item}") { navBackStackEntry ->
             val item = navBackStackEntry.arguments?.getString("item")
             item?.let {
-                
+
                 ApplicationInfoScreen(item=it) { navController.navigate("profile") }
             }
         }
@@ -57,5 +64,10 @@ fun Navigation() {
         composable("application") { ApplicationFormScreen()}
 
 
+        composable("add") {
+            AddJobApplicationScreen(navigateToLoginScreen = { navController.navigate("login") },
+                userIsNotAuthorized = {navController.navigate("login")},
+                navigateBack = { navController.popBackStack() })
+        }
     }
 }

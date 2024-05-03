@@ -38,8 +38,22 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text("Logged in as $email")
+
+        Button(onClick = { homeViewModel.signOut(navigateOnSuccess) }) {
+            Text("Logout")
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProfileScreenPreview() {
+    JobappTheme {
+        ProfileScreen(navigateOnSuccess = {}, userIsNotAuthorized = {})
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_foreground),
             contentDescription = "Navigate",
