@@ -44,10 +44,10 @@ fun RegisterScreen(
             visualTransformation = PasswordVisualTransformation()
         )
         Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) }) {
-            Text("Create account")
+            Text("Opret konto")
         }
         Text(
-            text = "Already have an account? Click here",
+            text = "Har du allerede en konto? Klik her.",
             Modifier.clickable { navigateToLoginScreen() }
         )
     }

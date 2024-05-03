@@ -26,6 +26,8 @@ fun HomeScreen(
 ) {
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
+    // Triggers recomposition every time screen is rendered
+    homeViewModel.getData(homeViewModel.getCurrentUser()?.uid.toString())
     val getData = homeViewModel.state.value
     Column(modifier = Modifier
         .fillMaxSize()

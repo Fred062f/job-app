@@ -1,6 +1,5 @@
 package com.example.job_app.feature_application_form.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,14 +7,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,10 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.job_app.feature_application_form.viewmodel.addApplication
-import com.example.job_app.feature_application_form.viewmodel.applicationClass
+import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
+import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
-import com.example.job_app.feature_home.ui.TopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
@@ -42,17 +34,13 @@ fun ApplicationFormScreen(
     userIsNotAuthorized: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    var jobTitle by remember { mutableStateOf("") }
     var coverDate by remember { mutableStateOf("") }
     var coverTime by remember { mutableStateOf("") }
-    var timestamp by remember { mutableStateOf("") }
 
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
-
-    // Meget af den følgende kode giver god mening at lave til @Composables, så der ikke er behov for repitation.
-    // Det arbejder vi på :^)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,10 +57,9 @@ fun ApplicationFormScreen(
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Jobtitel:      ")
             TextField(
-                value = jobTitle,
-                onValueChange = { jobTitle = it },
+                value = applicationFormViewModel.jobTitle,
+                onValueChange = { applicationFormViewModel.onJobTitleChange(it) },
                 modifier = Modifier
-                    .height(50.dp)
                     .fillMaxWidth()
             )
         }
@@ -88,7 +75,6 @@ fun ApplicationFormScreen(
                 value = coverDate,
                 onValueChange = { coverDate = it },
                 modifier = Modifier
-                    .height(50.dp)
                     .fillMaxWidth()
             )
         }
@@ -99,22 +85,21 @@ fun ApplicationFormScreen(
                 value = coverTime,
                 onValueChange = { coverTime = it },
                 modifier = Modifier
-                    .height(50.dp)
                     .fillMaxWidth()
             )
         }
         Spacer(modifier = Modifier.size(12.dp))
         Spacer(modifier = Modifier.size(24.dp))
         Button(onClick = {
-            addApplication(
-                applicationClass(
-                    jobTitle = jobTitle,
+            applicationFormViewModel.addJobApplicationToList(
+                JobApplication(
+                    jobTitle = applicationFormViewModel.jobTitle,
                     status = false,
                     timestamp = null
                 ),
                 userId = homeViewModel.getCurrentUser()?.uid.toString(),
-                navigateBack = navigateBack,
-                viewModel = homeViewModel)
+                navigateBack = navigateBack
+            )
         }) {
             Text(text = "Opret Ansøgning")
         }

@@ -31,7 +31,7 @@ class HomeViewModel : ViewModel() {
         getData(authRepository.getCurrentUser()?.uid.toString())
     }
 
-    private fun getData(userId: String) {
+    fun getData(userId: String) {
         viewModelScope.launch {
             state.value = firestoreRepository.getDataFromFirestore(userId)
         }
@@ -47,12 +47,6 @@ class HomeViewModel : ViewModel() {
     fun updateData(userId: String, jobApplicationId: String, currentStatus: Boolean) {
         viewModelScope.launch {
             firestoreRepository.updateApplicationStatus(userId, jobApplicationId, currentStatus)
-            state.value = firestoreRepository.getDataFromFirestore(userId)
-        }
-    }
-
-    fun recompose(userId: String) {
-        viewModelScope.launch {
             state.value = firestoreRepository.getDataFromFirestore(userId)
         }
     }

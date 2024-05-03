@@ -34,7 +34,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = loginViewModel.username,
             onValueChange = { loginViewModel.onUsernameChange(it) },
-            label = { Text("Username") },
+            label = { Text("E-mail") },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
@@ -45,10 +45,10 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation()
         )
         Button(onClick = { loginViewModel.signIn(onLoginSuccess) }) {
-            Text("Login")
+            Text("Log ind")
         }
         Text(
-            text = "Don't have an account? Click here",
+            text = "Har du ikke en konto? Klik her",
             Modifier.clickable { navigateToRegisterScreen() }
         )
     }

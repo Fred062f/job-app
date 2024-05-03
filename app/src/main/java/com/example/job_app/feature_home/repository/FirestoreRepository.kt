@@ -1,5 +1,6 @@
 package com.example.job_app.feature_home.repository
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.job_app.feature_home.models.JobApplication
@@ -46,6 +47,20 @@ class FirestoreRepository {
 
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
+    fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
+        db.collection("users").document(userId).collection("jobApplications")
+            .add(jobApplication)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG,"DocumentSnapshot added with ID: ${documentReference.id}")
+                navigateBack()
+            }
+            .addOnFailureListener { e ->
+                Log.w(
+                    TAG, "Error adding document", e
+                )
+            }
     }
 
 }
