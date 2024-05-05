@@ -43,13 +43,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @Composable
 fun DateHeader() {
-    val current = LocalDate.now().toString()
+    val current = LocalDate.now()
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy") // Define your desired date format
+    val formattedDate = current.format(formatter)
     Text(
-        text = "Dato i dag: $current",
+        text = "Dato i dag: $formattedDate",
         color = Color.Gray,
         fontWeight = FontWeight.Bold,
         fontSize = 26.sp
@@ -203,7 +208,19 @@ fun ListItem(items: List<JobApplication>) {
             Column {
                 androidx.compose.material3.ListItem(
                     headlineContent = { Text(text = item.jobTitle.toString()) },
-                    supportingContent = { Text(text = item.timestamp?.toDate().toString()) },
+                    supportingContent = { item.timestamp?.let { timestamp ->
+                        // Convert timestamp to Date object
+                        val date = timestamp.toDate()
+                        // Define your desired date format
+                        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+                        // Format the Date object as a string
+                        val dateString = dateFormat.format(date)
+                        // Display the formatted date string
+                        Text(text = dateString)
+                    } ?: run {
+                        // Handle case where timestamp is null
+                        Text(text = "No timestamp available")
+                    }},
                     trailingContent = {
                         IconButton(onClick = {
                             if (userId != null) {
