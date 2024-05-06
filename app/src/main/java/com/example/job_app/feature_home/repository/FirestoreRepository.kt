@@ -1,6 +1,5 @@
 package com.example.job_app.feature_home.repository
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.job_app.feature_home.models.JobApplication
