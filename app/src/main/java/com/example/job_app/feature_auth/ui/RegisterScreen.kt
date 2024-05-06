@@ -59,7 +59,7 @@ fun RegisterScreen(
     }
     Column(
         modifier = Modifier
-            .fillMaxSize(0.8f)
+            .fillMaxSize(0.78f)
             .background(Color(0xFF1565C0)),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
