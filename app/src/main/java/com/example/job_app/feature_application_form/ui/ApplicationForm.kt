@@ -173,7 +173,7 @@ fun ApplicationFormScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun AppFormPreview() {
+fun AppFormPreviewTwo() {
     JobappTheme {
         ApplicationFormScreen()
     }

@@ -88,20 +88,6 @@ fun RegisterScreen(
         )
         Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) }) {
             Text("Opret konto")
-            label = { Text("Email...", color = Color.White) },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth(0.8f),
-            shape = RoundedCornerShape(24.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                disabledTextColor = Color.White,
-                cursorColor = Color.White,
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
-                disabledBorderColor = Color.Transparent,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.White))
 
 
     OutlinedTextField(
@@ -137,14 +123,8 @@ fun RegisterScreen(
             Modifier.clickable { navigateToLoginScreen() }
         )
     }
-}
 
-            text = "Already have an account? Click here",
-            color = Color.White,
-            modifier = Modifier.clickable { navigateToLoginScreen() }
-        )}
-
-}
+}}
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {
