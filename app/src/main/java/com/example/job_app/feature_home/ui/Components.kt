@@ -196,7 +196,7 @@ fun ListItemHeaders() {
 @Composable
 fun ListItem(items: List<JobApplication>) {
     val homeViewModel: HomeViewModel = viewModel()
-    val userId = homeViewModel.getCurrentUser()?.uid
+    val userId = "homeViewModel.getCurrentUser()?.uid"
     val sorted = items.sortedBy { it.timestamp }
     LazyColumn {
         items(sorted) { item ->
