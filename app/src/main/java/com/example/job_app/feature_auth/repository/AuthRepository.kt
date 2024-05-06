@@ -7,11 +7,12 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.job_app.feature_application_form.viewmodel.applicationClass
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 
 class AuthRepository {
-    // Initialwize Firebase Auth
+    // Initialize Firebase Auth
     private var auth: FirebaseAuth = Firebase.auth
 
 
@@ -21,8 +22,8 @@ class AuthRepository {
         return currentUser != null
     }
 
-    fun getCurrentUser(): String? {
-        return Firebase.auth.currentUser?.email
+    fun getCurrentUser(): FirebaseUser? {
+        return Firebase.auth.currentUser
     }
 
     fun createAccount(email: String, password: String, onResult: (Boolean) -> Unit) {
@@ -52,3 +53,4 @@ class AuthRepository {
 
 
 }
+
