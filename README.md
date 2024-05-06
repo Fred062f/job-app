@@ -1,4 +1,6 @@
-# job-app
+# Job-app
+
+*This is the branch used for the mvp - this will be changed at a later date*
 
 ## Overview
 This is a mobile application aimed at empowering job seekers to structure their job applications effectively and receive feedback to improve their chances of securing employment. By providing tools for organizing application materials and soliciting feedback, the app aims to enhance users' applications and increase their competitiveness in the job market.
@@ -11,11 +13,14 @@ This is a mobile application aimed at empowering job seekers to structure their 
 - **Programming Languages:** Kotlin for Android development.
 - **Frameworks and Libraries:** Android SDK.
 
-## Getting Started
-To get started with this application, follow these steps:
-1. Clone the repository to your local machine.
-2. Open the project in Android Studio.
-3. Build and run the app on an Android emulator or physical device.
+## Strategy
+See the [Branching Strategies](branching_strategies.md) file for details.
+
+## Design
+Visit [FIGMA](figma_link.md) for details.
+
+## Video
+Download a [Video](https://github.com/Fred062f/job-app/blob/feat/calender/2024-04-28%2022-37-04.mp4) showcase here.
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

@@ -76,6 +76,18 @@ fun RegisterScreen(
         OutlinedTextField(
             value = registerViewModel.email,
             onValueChange = { registerViewModel.onEmailChange(it) },
+            label = { Text("E-mail") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = registerViewModel.password,
+            onValueChange = { registerViewModel.onPasswordChange(it) },
+            label = { Text("Password") },
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation()
+        )
+        Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) }) {
+            Text("Opret konto")
             label = { Text("Email...", color = Color.White) },
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f),
@@ -121,6 +133,12 @@ fun RegisterScreen(
         }
         Spacer(modifier = Modifier.height(6.dp))
         Text(
+            text = "Har du allerede en konto? Klik her.",
+            Modifier.clickable { navigateToLoginScreen() }
+        )
+    }
+}
+
             text = "Already have an account? Click here",
             color = Color.White,
             modifier = Modifier.clickable { navigateToLoginScreen() }

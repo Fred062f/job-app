@@ -34,7 +34,7 @@ import com.example.job_app.ui.theme.JobappTheme
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     navigateToRegisterScreen: () -> Unit
-    ) {
+) {
     val loginViewModel: LoginViewModel = viewModel()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
@@ -66,6 +66,9 @@ fun LoginScreen(
         OutlinedTextField(
             value = loginViewModel.username,
             onValueChange = { loginViewModel.onUsernameChange(it) },
+            label = { Text("E-mail") },
+            modifier = Modifier.fillMaxWidth()
+        )
             label = { Text("Email...", color = Color.White) },
             singleLine = true,
             modifier = Modifier
@@ -116,6 +119,8 @@ fun LoginScreen(
                 .width(275.dp)
         ) {
             Text("Login", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
+        Button(onClick = { loginViewModel.signIn(onLoginSuccess) }) {
+            Text("Log ind")
         }
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -130,6 +135,12 @@ fun LoginScreen(
             Text("Register", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp ))
         }
     }
+        Text(
+            text = "Har du ikke en konto? Klik her",
+            Modifier.clickable { navigateToRegisterScreen() }
+        )
+    }
+}
 
 
 }
