@@ -4,7 +4,6 @@ import ProfileScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import com.example.job_app.feature_auth.ui.LoginScreen
@@ -62,9 +61,6 @@ fun Navigation() {
 
 
         composable("add") {
-            ApplicationFormScreen(navigateToLoginScreen = { navController.navigate("login") },
-                userIsNotAuthorized = {navController.navigate("login")},
-                navigateBack = { navController.popBackStack() })
+            ApplicationFormScreen()}
         }
     }
-}

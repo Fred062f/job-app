@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.feature_home.models.JobApplication
@@ -37,11 +38,12 @@ import java.util.Date
 
 @Composable
 fun ApplicationFormScreen(
+    viewModelFactory: ViewModelProvider.Factory,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 

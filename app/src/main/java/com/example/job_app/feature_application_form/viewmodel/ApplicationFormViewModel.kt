@@ -1,9 +1,9 @@
 package com.example.job_app.feature_application_form.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.google.firebase.Timestamp
@@ -11,32 +11,36 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class ApplicationFormViewModel: ViewModel() {
-    private val firestoreRepository: FirestoreRepository = FirestoreRepository()
-
+class ApplicationFormViewModel(
+    private val firestoreRepository: FirestoreRepository,
+    private val notificationScheduler: NotificationScheduler
+) : ViewModel() {
     var jobTitle by mutableStateOf("")
     var date by mutableStateOf("Klik for at vælge dato")
 
     fun convertDateStringToTimestamp(): Timestamp {
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val date = format.parse(date)
+        val parsedDate = format.parse(date) ?: return Timestamp.now()
 
-        val calendar = Calendar.getInstance()
-        calendar.time = date!!
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
+        val calendar = Calendar.getInstance().apply {
+            time = parsedDate
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
 
-        // Convert the date to a Firebase Timestamp
-        val timestamp = Timestamp(calendar.time)
-        return timestamp
+        return Timestamp(calendar.time)
     }
 
     fun onJobTitleChange(jobTitle: String) {
-        this.jobTitle = jobTitle;
+        this.jobTitle = jobTitle
     }
+
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
-        firestoreRepository.addJobApplicationToList(jobApplication, userId, navigateBack)
+        firestoreRepository.addJobApplicationToList(jobApplication, userId) {
+            notificationScheduler.scheduleNotificationForApplication(convertDateStringToTimestamp())
+            navigateBack()
+        }
     }
 }
