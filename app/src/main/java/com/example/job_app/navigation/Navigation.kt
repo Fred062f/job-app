@@ -6,9 +6,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import com.example.job_app.feature_auth.ui.LoginScreen
 import com.example.job_app.feature_auth.ui.RegisterScreen
-import com.example.job_app.feature_home.ui.AddJobApplicationScreen
 import com.example.job_app.feature_home.ui.HomeScreen
 import com.example.job_app.feature_profile.ui.EditProfileScreenPreview
 import com.example.job_app.feature_profile.ui.MyDocumentsScreen
@@ -62,7 +62,7 @@ fun Navigation() {
 
 
         composable("add") {
-            AddJobApplicationScreen(navigateToLoginScreen = { navController.navigate("login") },
+            ApplicationFormScreen(navigateToLoginScreen = { navController.navigate("login") },
                 userIsNotAuthorized = {navController.navigate("login")},
                 navigateBack = { navController.popBackStack() })
         }

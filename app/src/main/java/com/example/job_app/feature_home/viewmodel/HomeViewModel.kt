@@ -31,7 +31,7 @@ class HomeViewModel : ViewModel() {
         getData(authRepository.getCurrentUser()?.uid.toString())
     }
 
-    private fun getData(userId: String) {
+    fun getData(userId: String) {
         viewModelScope.launch {
             state.value = firestoreRepository.getDataFromFirestore(userId)
         }
