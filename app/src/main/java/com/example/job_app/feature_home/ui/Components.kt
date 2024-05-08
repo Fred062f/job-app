@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
@@ -193,7 +194,10 @@ fun ListItemHeaders() {
 }
 
 @Composable
-fun ListItem(items: List<JobApplication>) {
+fun ListItem(
+    items: List<JobApplication>,
+    navController: NavController
+) {
     val homeViewModel: HomeViewModel = viewModel()
     val userId = homeViewModel.getCurrentUser()?.uid
     val sorted = items.sortedBy { it.timestamp }
@@ -201,7 +205,12 @@ fun ListItem(items: List<JobApplication>) {
         items(sorted) { item ->
             Column {
                 androidx.compose.material3.ListItem(
-                    headlineContent = { Text(text = item.jobTitle.toString()) },
+                    headlineContent = {
+                        Text(
+                            text = item.jobTitle?.let { it } ?: "Unknown",
+                            modifier = Modifier.clickable { item.id?.let { navController.navigate("application/$it") } }
+                        )
+                    },
                     supportingContent = { item.timestamp?.let { timestamp ->
                         // Convert timestamp to Date object
                         val date = timestamp.toDate()

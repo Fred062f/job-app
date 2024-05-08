@@ -7,6 +7,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.suspendCoroutine
 
 class FirestoreRepository {
     val db = Firebase.firestore
@@ -29,6 +30,33 @@ class FirestoreRepository {
         }
         return jobApplications
     }
+
+    suspend fun getDataByIdFromFirestore(userId: String, jobApplicationId: String): JobApplication? = suspendCoroutine { continuation ->
+        val docRef = db.collection("users").document(userId).collection("jobApplications").document(jobApplicationId)
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    val result = JobApplication(
+                        id = document.id,
+                        jobTitle = document.getString("jobTitle"),
+                        status = document.getBoolean("status"),
+                        timestamp = document.getTimestamp("timestamp")
+                    )
+                    println("From Firestore Repository:")
+                    println(result)
+                    continuation.resumeWith(Result.success(result))
+                } else {
+                    Log.d(TAG, "No such document")
+                    continuation.resumeWith(Result.success(null))
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+                continuation.resumeWith(Result.failure(exception))
+            }
+    }
+
     fun deleteDataFromFirestore(userId: String, jobApplicationId: String) {
         db.collection("users").document(userId).collection("jobApplications").document(jobApplicationId)
             .delete()

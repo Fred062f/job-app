@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
@@ -22,7 +23,8 @@ import com.example.job_app.ui.theme.JobappTheme
 fun HomeScreen(
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
-    navigateToAddJobApplicationScreen: () -> Unit
+    navigateToAddJobApplicationScreen: () -> Unit,
+    navController: NavController
 ) {
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
@@ -40,16 +42,16 @@ fun HomeScreen(
         HorizontalDivider()
         Column(modifier = Modifier
             .fillMaxWidth()
-            .height(425.dp)) {
+            .height(425.dp)
+        ){
             if (getData.size == 0) {
                 Box(modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center) {
                     Text(text = "Ingen kommende ansøgningsfrister", fontWeight = FontWeight.Bold)
                 }
             }
-            ListItem(getData)
+            ListItem(getData, navController)
         }
-        HorizontalDivider()
         BottomFloatingActionButton { navigateToAddJobApplicationScreen() }
     }
 }
