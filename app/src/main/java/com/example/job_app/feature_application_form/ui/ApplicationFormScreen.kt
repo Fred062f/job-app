@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.feature_home.models.JobApplication
@@ -38,12 +37,11 @@ import java.util.Date
 
 @Composable
 fun ApplicationFormScreen(
-    viewModelFactory: ViewModelProvider.Factory,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
     navigateBack: () -> Unit
 ) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
@@ -77,7 +75,7 @@ fun ApplicationFormScreen(
         Spacer(modifier = Modifier.size(24.dp))
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Dato:      ")
-            MyDatePickerDialog()
+            MyDatePickerDialog(applicationFormViewModel)
         }
         Spacer(modifier = Modifier.size(24.dp))
         Button(onClick = {
@@ -101,12 +99,12 @@ private fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy")
     return formatter.format(Date(millis))
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePickerDialog(
-    onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+    applicationFormViewModel: ApplicationFormViewModel,
+    onDateSelected: (String) -> Unit,  // Callback for when a date is selected
+    onDismiss: () -> Unit             // Callback for when the dialog is dismissed
 ) {
     val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
@@ -114,58 +112,46 @@ fun MyDatePickerDialog(
         }
     })
 
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
-
-    DatePickerDialog(
-        onDismissRequest = { onDismiss() },
-        confirmButton = {
-            Button(onClick = {
-                onDateSelected(selectedDate)
-                onDismiss()
+    if (showDatePicker) {
+        DatePickerDialog(
+            state = datePickerState,  // Correct parameter name as expected by the component
+            onDismissRequest = { onDismiss() },
+            confirmButton = {
+                Button(onClick = {
+                    val selectedDate = datePickerState.selectedDateMillis?.let {
+                        convertMillisToDate(it)
+                    } ?: ""
+                    onDateSelected(selectedDate)
+                    onDismiss()
+                }) {
+                    Text(text = "OK")
+                }
+            },
+            dismissButton = {
+                Button(onClick = { onDismiss() }) {
+                    Text(text = "Luk")
+                }
             }
-
-            ) {
-                Text(text = "OK")
-            }
-        },
-        dismissButton = {
-            Button(onClick = {
-                onDismiss()
-            }) {
-                Text(text = "Luk")
-            }
-        }
-    ) {
-        DatePicker(
-            state = datePickerState
         )
     }
 }
 
 @Composable
-fun MyDatePickerDialog() {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+fun SomeParentComposable() {
+    val viewModel: ApplicationFormViewModel = viewModel()  // Acquiring ViewModel instance
 
-    var showDatePicker by remember {
-        mutableStateOf(false)
-    }
-
-    Box(contentAlignment = Alignment.Center) {
-        TextButton(onClick = {  showDatePicker = true }) {
-            Text(text = applicationFormViewModel.date)
+    MyDatePickerDialog(
+        applicationFormViewModel = viewModel,
+        onDateSelected = { selectedDate ->
+            viewModel.date = selectedDate
+        },
+        onDismiss = {
+            // Handle dismiss action
         }
-    }
-    
-
-    if (showDatePicker) {
-        MyDatePickerDialog(
-            onDateSelected = { applicationFormViewModel.date = it },
-            onDismiss = { showDatePicker = false }
-        )
-    }
+    )
 }
+
+
 
 @Preview(showBackground = true)
 @Composable
