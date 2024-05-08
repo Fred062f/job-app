@@ -28,7 +28,6 @@ class ApplicationViewModel: ViewModel() {
         viewModelScope.launch {
             val result = firestoreRepository.getDataByIdFromFirestore(authRepository.getCurrentUser()?.uid.toString(), applicationId)
             jobApplication.value = result
-            println(result)
         }
     }
 }

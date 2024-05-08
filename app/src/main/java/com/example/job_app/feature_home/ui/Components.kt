@@ -18,9 +18,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,7 +64,7 @@ fun ApplicationDeadlines() {
     Text(
         text = "Kommende ansøgningsfrister:",
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
+        fontSize = 18.sp
     )
     Spacer(modifier = Modifier.height(5.dp))
 }
@@ -89,10 +92,21 @@ fun TopNavigationBar(
 {
     Row(
         modifier = Modifier
-            .padding(16.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        // Placeholder icon
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "Back",
+            tint = Color.DarkGray,
+            modifier = Modifier
+                .size(55.dp)
+                .padding(8.dp)
+                .clickable(onClick = { })
+                .alpha(0f)
+        )
+        Text(text = "JobApp", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = "Profile",
@@ -111,7 +125,6 @@ fun AlternativeTopNavigationBar(
     navigateBack: () -> Unit) {
     Row(
         modifier = Modifier
-            .padding(16.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -124,6 +137,7 @@ fun AlternativeTopNavigationBar(
                 .padding(8.dp)
                 .clickable(onClick = { navigateBack() })
         )
+        Text(text = "JobApp", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = "Logout",

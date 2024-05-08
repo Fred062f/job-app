@@ -15,6 +15,7 @@ class ApplicationFormViewModel: ViewModel() {
     private val firestoreRepository: FirestoreRepository = FirestoreRepository()
 
     var jobTitle by mutableStateOf("")
+    var description by mutableStateOf("")
     var date by mutableStateOf("Klik for at vælge dato")
 
     fun convertDateStringToTimestamp(): Timestamp {
@@ -36,6 +37,11 @@ class ApplicationFormViewModel: ViewModel() {
     fun onJobTitleChange(jobTitle: String) {
         this.jobTitle = jobTitle;
     }
+
+    fun onDescriptionChange(description: String) {
+        this.description = description;
+    }
+
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
         firestoreRepository.addJobApplicationToList(jobApplication, userId, navigateBack)
     }

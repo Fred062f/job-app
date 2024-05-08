@@ -5,5 +5,6 @@ data class JobApplication(
     val id: String? = "Id",
     val jobTitle: String? = "Job title",
     val status: Boolean? = false,
-    val timestamp: Timestamp? = null
+    val timestamp: Timestamp? = null,
+    val description: String? = "Ingen beskrivelse",
 )

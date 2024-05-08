@@ -41,7 +41,8 @@ class FirestoreRepository {
                         id = document.id,
                         jobTitle = document.getString("jobTitle"),
                         status = document.getBoolean("status"),
-                        timestamp = document.getTimestamp("timestamp")
+                        timestamp = document.getTimestamp("timestamp"),
+                        description = document.getString("description")
                     )
                     println("From Firestore Repository:")
                     println(result)
