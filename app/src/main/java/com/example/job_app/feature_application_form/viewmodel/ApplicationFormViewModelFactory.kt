@@ -6,14 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.job_app.feature_home.repository.FirestoreRepository
 
 class ApplicationFormViewModelFactory(
-    private val context: Context
+private val firestoreRepository: FirestoreRepository,
+private val notificationScheduler: NotificationScheduler
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ApplicationFormViewModel::class.java)) {
-            val firestoreRepository = FirestoreRepository()  // Assuming FirestoreRepository has a parameterless constructor
-            val notificationScheduler = NotificationScheduler(context)  // Your NotificationScheduler must accept Context
             return ApplicationFormViewModel(firestoreRepository, notificationScheduler) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+

@@ -1,6 +1,5 @@
 package com.example.job_app.feature_application_form.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,12 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
@@ -99,42 +95,45 @@ private fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy")
     return formatter.format(Date(millis))
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePickerDialog(
-    applicationFormViewModel: ApplicationFormViewModel,
-    onDateSelected: (String) -> Unit,  // Callback for when a date is selected
-    onDismiss: () -> Unit             // Callback for when the dialog is dismissed
+    applicationFormViewModel: ApplicationFormViewModel  // Assuming ViewModel handles date state internally
 ) {
-    val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
-        override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            return utcTimeMillis >= System.currentTimeMillis()
-        }
-    })
+    val datePickerState = rememberDatePickerState()  // If this requires a `state` parameter, ensure it's initialized correctly
+    var showDatePicker by remember { mutableStateOf(false) }
+
+    Button(onClick = { showDatePicker = true }) {
+        Text("Pick Date")
+    }
 
     if (showDatePicker) {
         DatePickerDialog(
-            state = datePickerState,  // Correct parameter name as expected by the component
-            onDismissRequest = { onDismiss() },
+            state = datePickerState,
+            onDismissRequest = {
+                showDatePicker = false
+            },
             confirmButton = {
                 Button(onClick = {
                     val selectedDate = datePickerState.selectedDateMillis?.let {
                         convertMillisToDate(it)
                     } ?: ""
-                    onDateSelected(selectedDate)
-                    onDismiss()
+                    applicationFormViewModel.date = selectedDate
+                    showDatePicker = false
                 }) {
-                    Text(text = "OK")
+                    Text("OK")
                 }
             },
             dismissButton = {
-                Button(onClick = { onDismiss() }) {
-                    Text(text = "Luk")
+                Button(onClick = { showDatePicker = false }) {
+                    Text("Cancel")
                 }
             }
         )
     }
 }
+
 
 @Composable
 fun SomeParentComposable() {
