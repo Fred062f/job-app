@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.job_app.feature_home.repository.FirestoreRepository
 
 class ApplicationFormViewModelFactory(
-private val firestoreRepository: FirestoreRepository,
-private val notificationScheduler: NotificationScheduler
+    private val firestoreRepository: FirestoreRepository,
+    private val notificationScheduler: NotificationScheduler
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ApplicationFormViewModel::class.java)) {
@@ -16,4 +16,5 @@ private val notificationScheduler: NotificationScheduler
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
+
 

@@ -1,5 +1,6 @@
 package com.example.job_app.feature_application_form.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,26 +25,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
+import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModelFactory
+import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
 import com.example.job_app.feature_home.models.JobApplication
+import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import com.example.job_app.util.NotificationHelper
 import java.text.SimpleDateFormat
 import java.util.Date
 
 
 @Composable
 fun ApplicationFormScreen(
+    firestoreRepository: FirestoreRepository,
+    notificationScheduler: NotificationScheduler,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    context: Context = LocalContext.current
 ) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+
+    val viewModelFactory = ApplicationFormViewModelFactory(firestoreRepository, notificationScheduler)
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
@@ -98,26 +109,38 @@ fun ApplicationFormScreen(
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
             Button(onClick = {
-                applicationFormViewModel.addJobApplicationToList(
-                    JobApplication(
-                        jobTitle = applicationFormViewModel.jobTitle,
-                        status = false,
-                        timestamp = applicationFormViewModel.convertDateStringToTimestamp(),
-                        description = applicationFormViewModel.description
-                    ),
-                    userId = homeViewModel.getCurrentUser()?.uid.toString(),
-                    navigateBack = navigateBack
+                val jobApplication = JobApplication(
+                    jobTitle = applicationFormViewModel.jobTitle,
+                    status = false,
+                    timestamp = applicationFormViewModel.convertDateStringToTimestamp()
                 )
-            }
-                , modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(width = 200.dp, height = 50.dp)
-            ) {
+
+                // Add the job application to some list or database
+                applicationFormViewModel.addJobApplicationToList(
+                    jobApplication,
+                    homeViewModel.getCurrentUser()?.uid.toString(),
+                    navigateBack
+                )
+
+                // Schedule the notification
+                jobApplication.timestamp?.let { timestamp ->
+                    val currentTimeMillis = System.currentTimeMillis()
+                    val notificationTimeMillis = timestamp.seconds * 1000 - 24 * 3600 * 1000 // 24 hours before the due date
+                    if (notificationTimeMillis > currentTimeMillis) { // Ensure the notification time is in the future
+                        NotificationHelper.scheduleNotification(
+                            context,
+                            3,
+                            "Application Reminder",
+                            "Your application deadline for ${jobApplication.jobTitle} is approaching!",  // Content
+                        )
+                    }
+                }
+            }) {
                 Text(text = "Opret ansøgning")
             }
         }
+        }
     }
-}
 
 
 private fun convertMillisToDate(millis: Long): String {

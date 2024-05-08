@@ -18,6 +18,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.job_app.navigation.Navigation
 import com.example.job_app.ui.theme.JobappTheme
+import com.example.job_app.util.NotificationHelper
+import com.example.job_app.util.NotificationHelper.createNotificationChannel
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
 

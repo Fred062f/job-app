@@ -6,10 +6,10 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
 
@@ -27,29 +27,28 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleNotification(context: Context, dueDateMillis: Long, title: String, content: String) {
+    fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            // Optionally request the permission here.
+            return
+        }
+
+        val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
+        if (!notificationManager.areNotificationsEnabled()) {
+            // Notifications are disabled for the app
+            return
+        }
+
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle(title)
             .setContentText(content)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setWhen(dueDateMillis)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setWhen(triggerTime)
             .setAutoCancel(true)
 
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
-        NotificationManagerCompat.from(context).notify(0, builder.build())
+        notificationManager.notify(0, builder.build())
     }
 }

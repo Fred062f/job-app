@@ -5,7 +5,16 @@ import com.example.job_app.util.NotificationHelper
 
 class NotificationScheduler(private val context: Context) {
     fun scheduleNotificationForApplication(dueDate: com.google.firebase.Timestamp) {
-        val dueDateMillis = dueDate.seconds * 1000 + dueDate.nanoseconds / 1000000
-        NotificationHelper.scheduleNotification(context, dueDateMillis, "Job Application Due", "Your application for the job is due today.")
+        // Calculate the exact time to trigger the notification (e.g., 3 seconds from now)
+        val triggerTime = System.currentTimeMillis() + 3000  // For immediate effect in testing
+
+        // Prepare the title and content for the notification
+        val title = "Application Reminder"
+        val content = "Your application deadline is approaching!"
+
+        // Schedule the notification
+        NotificationHelper.scheduleNotification(context, triggerTime, title, content)
     }
 }
+
+
