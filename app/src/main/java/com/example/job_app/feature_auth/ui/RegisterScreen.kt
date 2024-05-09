@@ -21,7 +21,7 @@ fun RegisterScreen(
     navigateToLoginScreen: () -> Unit) {
     val registerViewModel: RegisterViewModel = viewModel()
     if (registerViewModel.shouldShowDialog) {
-        AlertDialog(text = "Register failure")
+        AlertDialog(title = "Fejl", text = "Der skete en fejl ved oprettelse af bruger")
     }
     Column(
         modifier = Modifier

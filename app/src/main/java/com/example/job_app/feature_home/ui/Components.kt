@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
@@ -215,6 +216,19 @@ fun ListItem(
     val homeViewModel: HomeViewModel = viewModel()
     val userId = homeViewModel.getCurrentUser()?.uid
     val sorted = items.sortedBy { it.timestamp }
+
+    if (homeViewModel.shouldShowDialog) {
+        RemoveDialogComponent(
+            title = "Slet",
+            text = "Er du sikker på at du vil slette ansøgningensfristen fra din liste?",
+            onConfirm = {
+                if (userId != null) {
+                    homeViewModel.deleteData(userId, homeViewModel.itemId)
+                }
+            }
+        )
+    }
+
     LazyColumn {
         items(sorted) { item ->
             Column {
@@ -241,8 +255,9 @@ fun ListItem(
                     trailingContent = {
                         IconButton(onClick = {
                             if (userId != null) {
-                                homeViewModel.deleteData(userId, item.id.toString())
-                                // Trigger Recomposition
+                                //homeViewModel.deleteData(userId, item.id.toString())
+                                homeViewModel.itemId = item.id.toString()
+                                homeViewModel.shouldShowDialog = true
                             }
                         }) {
                             Icon(

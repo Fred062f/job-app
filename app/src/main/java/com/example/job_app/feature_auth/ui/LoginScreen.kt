@@ -22,7 +22,7 @@ fun LoginScreen(
 ) {
     val loginViewModel: LoginViewModel = viewModel()
     if (loginViewModel.shouldShowDialog) {
-        AlertDialog(text = "Login failure")
+        AlertDialog(title = "Fejl", text = "E-mail eller password er ikke gyldig")
     }
     Column(
         modifier = Modifier
