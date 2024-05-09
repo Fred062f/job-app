@@ -1,10 +1,12 @@
 package com.example.job_app.feature_application_form.ui
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -23,76 +25,120 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
+import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModelFactory
+import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
 import com.example.job_app.feature_home.models.JobApplication
+import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import com.example.job_app.util.NotificationHelper
 import java.text.SimpleDateFormat
 import java.util.Date
 
 
 @Composable
 fun ApplicationFormScreen(
+    firestoreRepository: FirestoreRepository,
+    notificationScheduler: NotificationScheduler,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    context: Context = LocalContext.current
 ) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+
+    val viewModelFactory = ApplicationFormViewModelFactory(firestoreRepository, notificationScheduler)
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)) {
+            .padding(10.dp)) {
         AlternativeTopNavigationBar(
             navigateToLoginScreen = { homeViewModel.signOut(navigateToLoginScreen) },
             navigateBack = navigateBack
         )
         Spacer(modifier = Modifier.size(32.dp))
-        Row {
-            Text(text = "Step 1: Indtast information", fontSize = 20.sp)
-        }
-        Spacer(modifier = Modifier.size(32.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Jobtitel:      ")
-            TextField(
-                value = applicationFormViewModel.jobTitle,
-                onValueChange = { applicationFormViewModel.onJobTitleChange(it) },
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-        }
-        Spacer(modifier = Modifier.size(32.dp))
-        Row {
 
-            Text(text = "Step 2: Indtast frist for ansøgelse", fontSize = 20.sp)
-        }
+        Text(text = "Step 1: Indtast information", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        Text(text = "Jobtitel:")
+        TextField(
+            value = applicationFormViewModel.jobTitle,
+            onValueChange = { applicationFormViewModel.onJobTitleChange(it) },
+            modifier = Modifier
+                .fillMaxWidth(),
+            placeholder = { Text("Indtast jobtitel") }
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        Text(text = "Beskrivelse (Valgfrit):")
+        TextField(
+            value = applicationFormViewModel.description,
+            onValueChange = {  applicationFormViewModel.onDescriptionChange(it) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(150.dp),
+            placeholder = { Text("Tilføj en beskrivelse af jobbet") }
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        Text(text = "Step 2: Indtast frist for ansøgelse", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+
         Spacer(modifier = Modifier.size(24.dp))
+
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Dato:      ")
+            Text(text = "Dato:")
+            Spacer(modifier = Modifier.size(10.dp))
             MyDatePickerDialog()
         }
-        Spacer(modifier = Modifier.size(24.dp))
-        Button(onClick = {
-            applicationFormViewModel.addJobApplicationToList(
-                JobApplication(
+
+        Spacer(modifier = Modifier.size(65.dp))
+
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
+            Button(onClick = {
+                val jobApplication = JobApplication(
                     jobTitle = applicationFormViewModel.jobTitle,
                     status = false,
                     timestamp = applicationFormViewModel.convertDateStringToTimestamp()
-                ),
-                userId = homeViewModel.getCurrentUser()?.uid.toString(),
-                navigateBack = navigateBack
-            )
-        }) {
-            Text(text = "Opret ansøgning")
+                )
+                applicationFormViewModel.addJobApplicationToList(
+                    jobApplication,
+                    homeViewModel.getCurrentUser()?.uid.toString(),
+                    navigateBack
+                )
+
+                // Schedule the notification - Missing testing
+                jobApplication.timestamp?.let { timestamp ->
+                    val currentTimeMillis = System.currentTimeMillis()
+                    val notificationTimeMillis = timestamp.seconds * 1000 - 24 * 3600 * 1000 // 24 hours before the due date
+                    if (notificationTimeMillis > currentTimeMillis) { // Ensure the notification time is in the future
+                        NotificationHelper.scheduleNotification(
+                            context,
+                            3,
+                            "Application Reminder",
+                            "Your application deadline for ${jobApplication.jobTitle} is approaching!",  // Content
+                        )
+                    }
+                }
+            }) {
+                Text(text = "Opret ansøgning")
+            }
+        }
         }
     }
-}
 
 
 private fun convertMillisToDate(millis: Long): String {
@@ -155,7 +201,7 @@ fun MyDatePickerDialog() {
             Text(text = applicationFormViewModel.date)
         }
     }
-    
+
 
     if (showDatePicker) {
         MyDatePickerDialog(

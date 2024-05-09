@@ -1,42 +1,79 @@
 package com.example.job_app.feature_application_form.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.example.job_app.util.NotificationHelper
+import java.text.ParseException
 
-class ApplicationFormViewModel: ViewModel() {
-    private val firestoreRepository: FirestoreRepository = FirestoreRepository()
 
+class ApplicationFormViewModel(
+    private val firestoreRepository: FirestoreRepository,
+    private val notificationScheduler: NotificationScheduler
+) : ViewModel() {
     var jobTitle by mutableStateOf("")
     var date by mutableStateOf("Klik for at vælge dato")
+    var description by mutableStateOf("")
 
-    fun convertDateStringToTimestamp(): Timestamp {
+    fun onJobTitleChange(newTitle: String) {
+        jobTitle = newTitle
+    }
+
+    fun onDescriptionChange(newDescription: String) {
+        description = newDescription
+    }
+
+    fun convertDateStringToTimestamp(): Timestamp? {
+        if (date == "Klik for at vælge dato") {
+            return null  // Or handle it in another appropriate way
+        }
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val date = format.parse(date)
-
-        val calendar = Calendar.getInstance()
-        calendar.time = date!!
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-
-        // Convert the date to a Firebase Timestamp
-        val timestamp = Timestamp(calendar.time)
-        return timestamp
+        return try {
+            val parsedDate = format.parse(date)
+            val calendar = Calendar.getInstance().apply {
+                time = parsedDate
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            Timestamp(calendar.time)
+        } catch (e: ParseException) {
+            null  // Or log the error and handle it
+        }
     }
 
-    fun onJobTitleChange(jobTitle: String) {
-        this.jobTitle = jobTitle;
+
+    // could be deleted
+    fun scheduleNotificationForJobApplication(context: Context) {
+        val timestamp = convertDateStringToTimestamp()
+        val notificationTime = (timestamp?.seconds ?: 10) * 1000 - 24 * 3600 * 1000  // 24 hours before the deadline
+
+        NotificationHelper.scheduleNotification(
+            context,
+            3, "ww", "www"
+        )
     }
+
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
-        firestoreRepository.addJobApplicationToList(jobApplication, userId, navigateBack)
+        firestoreRepository.addJobApplicationToList(jobApplication, userId) {
+            convertDateStringToTimestamp()?.let {
+                notificationScheduler.scheduleNotificationForApplication(
+                    it
+                )
+            }
+            navigateBack()
+        }
     }
+
+
+
 }
