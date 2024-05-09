@@ -114,15 +114,13 @@ fun ApplicationFormScreen(
                     status = false,
                     timestamp = applicationFormViewModel.convertDateStringToTimestamp()
                 )
-
-                // Add the job application to some list or database
                 applicationFormViewModel.addJobApplicationToList(
                     jobApplication,
                     homeViewModel.getCurrentUser()?.uid.toString(),
                     navigateBack
                 )
 
-                // Schedule the notification
+                // Schedule the notification - Missing testing
                 jobApplication.timestamp?.let { timestamp ->
                     val currentTimeMillis = System.currentTimeMillis()
                     val notificationTimeMillis = timestamp.seconds * 1000 - 24 * 3600 * 1000 // 24 hours before the due date

@@ -52,6 +52,7 @@ class ApplicationFormViewModel(
     }
 
 
+    // could be deleted
     fun scheduleNotificationForJobApplication(context: Context) {
         val timestamp = convertDateStringToTimestamp()
         val notificationTime = (timestamp?.seconds ?: 10) * 1000 - 24 * 3600 * 1000  // 24 hours before the deadline
