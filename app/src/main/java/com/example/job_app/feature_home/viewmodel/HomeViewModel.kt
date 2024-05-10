@@ -26,6 +26,8 @@ class HomeViewModel : ViewModel() {
         authRepository.signOut(navigateOnSuccess)
     }
 
+    var logoutDialog by mutableStateOf(false)
+
     var shouldShowDialog by mutableStateOf(false)
 
     var itemId by mutableStateOf("")

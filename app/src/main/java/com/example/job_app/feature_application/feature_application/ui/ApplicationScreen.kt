@@ -53,7 +53,13 @@ fun ApplicationScreen(
             Spacer(modifier = Modifier.size(16.dp))
 
             Text("Beskrivelse:", fontWeight = FontWeight.Bold)
-            application.description?.let { Text(it) }
+            application.description?.let { text ->
+                if (text.isEmpty()) {
+                    Text("Ingen beskrivelse givet.")
+                } else {
+                    Text(text)
+                }
+            }
             Spacer(modifier = Modifier.size(16.dp))
 
             Row(modifier = Modifier.fillMaxWidth()){

@@ -1,8 +1,10 @@
 package com.example.job_app.feature_application_form.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.net.ParseException
 import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
@@ -41,6 +43,10 @@ class ApplicationFormViewModel: ViewModel() {
     fun onDescriptionChange(description: String) {
         this.description = description;
     }
+
+    var shouldShowDialogOnJobTitleError by mutableStateOf(false)
+
+    var shouldShowDialogOnDateError by mutableStateOf(false)
 
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
         firestoreRepository.addJobApplicationToList(jobApplication, userId, navigateBack)

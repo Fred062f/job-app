@@ -9,15 +9,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
 @Composable
 fun AlertDialog(title: String, text: String) {
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
     val openDialog = remember { mutableStateOf(true) }
     if (openDialog.value) { // 2
         AlertDialog( // 3
             onDismissRequest = { // 4
                 openDialog.value = false
+                applicationFormViewModel.shouldShowDialogOnJobTitleError = false
+                applicationFormViewModel.shouldShowDialogOnDateError = false
             },
             // 5
             title = { Text(title) },
@@ -26,10 +31,12 @@ fun AlertDialog(title: String, text: String) {
                 Button(
                     onClick = {
                         openDialog.value = false
+                        applicationFormViewModel.shouldShowDialogOnJobTitleError = false
+                        applicationFormViewModel.shouldShowDialogOnDateError = false
                     }
                 ) {
                     Text(
-                        text = "Confirm",
+                        text = "OK",
                         color = Color.White
                     )
                 }

@@ -91,6 +91,18 @@ fun BottomFloatingActionButton(onClick: () -> Unit) {
 fun TopNavigationBar(
     navigateToLoginScreen: () -> Unit)
 {
+    val homeViewModel: HomeViewModel = viewModel()
+
+    if (homeViewModel.logoutDialog) {
+        ConfirmDialogComponent(
+            title = "Log ud",
+            text = "Er du sikker på at du vil logge ud af din konto?",
+            onConfirm = {
+                navigateToLoginScreen()
+            }
+        )
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -115,7 +127,7 @@ fun TopNavigationBar(
             modifier = Modifier
                 .size(55.dp)
                 .padding(8.dp)
-                .clickable(onClick = { navigateToLoginScreen() })
+                .clickable(onClick = { homeViewModel.logoutDialog = true })
         )
     }
 }
@@ -124,6 +136,18 @@ fun TopNavigationBar(
 fun AlternativeTopNavigationBar(
     navigateToLoginScreen: () -> Unit,
     navigateBack: () -> Unit) {
+
+    val homeViewModel: HomeViewModel = viewModel()
+
+    if (homeViewModel.logoutDialog) {
+        ConfirmDialogComponent(
+            title = "Log ud",
+            text = "Er du sikker på at du vil logge ud af din konto?",
+            onConfirm = {
+                navigateToLoginScreen()
+            }
+        )
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -146,36 +170,8 @@ fun AlternativeTopNavigationBar(
             modifier = Modifier
                 .size(55.dp)
                 .padding(8.dp)
-                .clickable(onClick = { navigateToLoginScreen() })
+                .clickable(onClick = { homeViewModel.logoutDialog = true })
         )
-    }
-}
-
-@Composable
-fun TestScreen() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(10.dp)) {
-        TopNavigationBar {
-
-        }
-        DateHeader()
-        ApplicationDeadlines()
-        HorizontalDivider()
-        ListItemHeaders()
-        HorizontalDivider()
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .height(500.dp)
-            .background(Color.LightGray)) {
-            /* TODO */
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center) {
-                Text(text = "Ingen kommende ansøgningsfrister", fontWeight = FontWeight.Bold)
-            }
-        }
-        HorizontalDivider()
-        BottomFloatingActionButton {}
     }
 }
 
@@ -218,7 +214,7 @@ fun ListItem(
     val sorted = items.sortedBy { it.timestamp }
 
     if (homeViewModel.shouldShowDialog) {
-        RemoveDialogComponent(
+        ConfirmDialogComponent(
             title = "Slet",
             text = "Er du sikker på at du vil slette ansøgningensfristen fra din liste?",
             onConfirm = {
@@ -295,12 +291,5 @@ fun ListItem(
             }
             HorizontalDivider()
         }
-    }
-}
-@Preview(showBackground = true)
-@Composable
-fun TestScreenPreview() {
-    JobappTheme {
-        TestScreen()
     }
 }

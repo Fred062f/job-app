@@ -12,13 +12,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
 @Composable
-fun RemoveDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
+fun ConfirmDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
     val homeViewModel: HomeViewModel = viewModel()
     val openDialog = remember { mutableStateOf(true) }
     if (openDialog.value) { // 2
         androidx.compose.material3.AlertDialog( // 3
             onDismissRequest = { // 4
                 openDialog.value = false
+                homeViewModel.shouldShowDialog = false
+                homeViewModel.logoutDialog = false
             },
             // 5
             title = { Text(title) },
@@ -29,6 +31,7 @@ fun RemoveDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
                         onConfirm()
                         openDialog.value = false
                         homeViewModel.shouldShowDialog = false
+                        homeViewModel.logoutDialog = false
                     }
                 ) {
                     Text(
@@ -42,6 +45,7 @@ fun RemoveDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
                     onClick = {
                         openDialog.value = false
                         homeViewModel.shouldShowDialog = false
+                        homeViewModel.logoutDialog = false
                     }
                 ) {
                     Text("Nej")
@@ -53,10 +57,10 @@ fun RemoveDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun RemoveDialogComponentPreview() {
+fun ConfirmDialogComponentPreview() {
     JobappTheme {
         Column {
-            RemoveDialogComponent(title = "Error", text = "Text", onConfirm = {})
+            ConfirmDialogComponent(title = "Error", text = "Text", onConfirm = {})
         }
     }
 }

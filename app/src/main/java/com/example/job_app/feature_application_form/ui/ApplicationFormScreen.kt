@@ -1,5 +1,6 @@
 package com.example.job_app.feature_application_form.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
+import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
@@ -46,6 +48,13 @@ fun ApplicationFormScreen(
     val applicationFormViewModel: ApplicationFormViewModel = viewModel()
     val homeViewModel: HomeViewModel = viewModel()
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
+
+    if (applicationFormViewModel.shouldShowDialogOnJobTitleError) {
+        AlertDialog(title = "Fejl", text = "Du skal indtaste en jobtitel")
+    }
+    if (applicationFormViewModel.shouldShowDialogOnDateError) {
+        AlertDialog(title = "Fejl", text = "Datoen er ikke gyldig")
+    }
 
     Column(
         modifier = Modifier
@@ -98,16 +107,27 @@ fun ApplicationFormScreen(
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
             Button(onClick = {
-                applicationFormViewModel.addJobApplicationToList(
-                    JobApplication(
-                        jobTitle = applicationFormViewModel.jobTitle,
-                        status = false,
-                        timestamp = applicationFormViewModel.convertDateStringToTimestamp(),
-                        description = applicationFormViewModel.description
-                    ),
-                    userId = homeViewModel.getCurrentUser()?.uid.toString(),
-                    navigateBack = navigateBack
-                )
+                if (applicationFormViewModel.jobTitle.isEmpty()) {
+                    applicationFormViewModel.shouldShowDialogOnJobTitleError = true
+                    return@Button
+                } else {
+                    try {
+                        applicationFormViewModel.addJobApplicationToList(
+                            JobApplication(
+                                jobTitle = applicationFormViewModel.jobTitle,
+                                status = false,
+                                timestamp = applicationFormViewModel.convertDateStringToTimestamp(),
+                                description = applicationFormViewModel.description
+                            ),
+                            userId = homeViewModel.getCurrentUser()?.uid.toString(),
+                            navigateBack = navigateBack
+                        )
+                    } catch (e: Exception) {
+                        Log.e("JobApplicationForm", "Error adding job application to list", e)
+                        applicationFormViewModel.shouldShowDialogOnDateError = true
+                        return@Button
+                    }
+                }
             }
                 , modifier = Modifier
                     .align(Alignment.Center)
