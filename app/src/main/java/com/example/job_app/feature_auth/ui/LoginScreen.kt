@@ -34,7 +34,7 @@ import com.example.job_app.ui.theme.JobappTheme
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     navigateToRegisterScreen: () -> Unit
-    ) {
+) {
     val loginViewModel: LoginViewModel = viewModel()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
@@ -50,37 +50,37 @@ fun LoginScreen(
     ) {
 
 
-            // Place your logo image here
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                modifier = Modifier.size(200.dp),
-                contentDescription = "Logo"
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+        // Place your logo image here
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            modifier = Modifier.size(200.dp),
+            contentDescription = "Logo"
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .background(Color.Transparent, RoundedCornerShape(24.dp)) // Set the background here
         ) {
-        OutlinedTextField(
-            value = loginViewModel.username,
-            onValueChange = { loginViewModel.onUsernameChange(it) },
-            label = { Text("Email...", color = Color.White) },
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(24.dp),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.LightGray,
-                disabledTextColor = Color.Gray,
-                cursorColor = Color.White,
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
-                disabledBorderColor = Color.Transparent,
-                focusedLabelColor = Color.Gray,
-                unfocusedLabelColor = Color.Gray))
+            OutlinedTextField(
+                value = loginViewModel.username,
+                onValueChange = { loginViewModel.onUsernameChange(it) },
+                label = { Text("Email...", color = Color.White) },
+                singleLine = true,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                shape = RoundedCornerShape(24.dp),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.LightGray,
+                    disabledTextColor = Color.Gray,
+                    cursorColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.White,
+                    disabledBorderColor = Color.Transparent,
+                    focusedLabelColor = Color.Gray,
+                    unfocusedLabelColor = Color.Gray))
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -91,7 +91,7 @@ fun LoginScreen(
             label = {Text("Password...", color = Color.White) },
             singleLine = true,
             modifier = Modifier
-            .fillMaxWidth(0.8f),
+                .fillMaxWidth(0.8f),
             shape = RoundedCornerShape(24.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedTextColor = Color.White,
@@ -117,7 +117,7 @@ fun LoginScreen(
         ) {
             Text("Login", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
         }
-            Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {  navigateToRegisterScreen()  },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -140,3 +140,9 @@ fun LoginScreenPreview() {
         LoginScreen(onLoginSuccess = {}, navigateToRegisterScreen = {})
     }
 }
+
+
+
+
+
+
