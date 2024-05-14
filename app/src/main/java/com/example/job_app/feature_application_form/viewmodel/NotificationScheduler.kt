@@ -3,17 +3,14 @@ package com.example.job_app.feature_application_form.viewmodel
 import android.content.Context
 import com.example.job_app.util.NotificationHelper
 
-// When "opret ansøgning" bliver triggered sammen med en dato
+// Når "opret ansøgning" bliver trigget sammen med en dato
 class NotificationScheduler(private val context: Context) {
-    fun scheduleNotificationForApplication(dueDate: Long) {
-        // Calculate the exact time to trigger the notification (e.g., 3 seconds from now)
-        val triggerTime = System.currentTimeMillis() + 3000  // For immediate effect in testing
 
-        // Prepare the title and content for the notification
-        val title = "Application Reminder"
-        val content = "Your application deadline is approaching!"
+    fun scheduleNotificationForApplication(title: String, content: String) {
+        // Tid er beregnet i millisekunder
+        val triggerTime = System.currentTimeMillis() + 3000  // = 3 sek
 
-        // Schedule the notification
+        // Planlæg notifikationen
         NotificationHelper.scheduleNotification(context, triggerTime, title, content)
     }
 }

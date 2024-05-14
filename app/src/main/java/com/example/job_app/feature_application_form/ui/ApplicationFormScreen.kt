@@ -1,6 +1,6 @@
 package com.example.job_app.feature_application_form.ui
 
-import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.MainActivity
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
@@ -97,12 +98,12 @@ fun ApplicationFormScreen(
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
             Button(onClick = {
-                activity.requestNotificationPermission()
                 val jobApplication = JobApplication(
                     jobTitle = applicationFormViewModel.jobTitle,
                     status = false,
                     timestamp = applicationFormViewModel.convertDateStringToTimestamp()
                 )
+                activity.scheduleNotificationWithPermissionCheck(jobApplication)
                 applicationFormViewModel.addJobApplicationToList(
                     jobApplication,
                     homeViewModel.getCurrentUser()?.uid.toString(),
@@ -125,6 +126,7 @@ fun ApplicationFormScreen(
     }
 }
 
+// Konverterer millisekunder til en dato streng
 private fun convertMillisToDateString(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))

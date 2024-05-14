@@ -1,18 +1,14 @@
 package com.example.job_app.util
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
-    private const val PERMISSION_REQUEST_CODE = 101
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -28,20 +24,10 @@ object NotificationHelper {
         }
     }
 
-    fun requestNotificationPermission(activity: ComponentActivity, onPermissionResult: (Boolean) -> Unit) {
-        val requestPermissionLauncher = activity.registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            onPermissionResult(isGranted)
-        }
-
-        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-    }
-
     fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String) {
         val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
         if (!notificationManager.areNotificationsEnabled()) {
-            // Notifications are disabled for the app
+            // tilladelse er ikke givet
             return
         }
 
@@ -53,6 +39,7 @@ object NotificationHelper {
             .setWhen(triggerTime)
             .setAutoCancel(true)
 
+        // denne virker men lyser rødt
         notificationManager.notify(1, builder.build())
     }
 }

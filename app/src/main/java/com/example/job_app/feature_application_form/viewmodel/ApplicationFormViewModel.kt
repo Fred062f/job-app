@@ -51,7 +51,7 @@ class ApplicationFormViewModel(
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
         firestoreRepository.addJobApplicationToList(jobApplication, userId) {
             convertDateStringToTimestamp()?.let {
-                notificationScheduler.scheduleNotificationForApplication(it.seconds * 1000)
+                notificationScheduler.scheduleNotificationForApplication(jobTitle,description)
             }
             navigateBack()
         }

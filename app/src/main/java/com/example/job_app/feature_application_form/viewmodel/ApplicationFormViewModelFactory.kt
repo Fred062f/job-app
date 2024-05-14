@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.job_app.feature_home.repository.FirestoreRepository
-
+// Factory bruges da vi har flere parametre til de ting vi vil have, at ViewModel skal indeholde
+// Her sammensættes både FirestoreRepository og NotificationScheduler til en enkelt ViewModel
 class ApplicationFormViewModelFactory(
     private val firestoreRepository: FirestoreRepository,
     private val notificationScheduler: NotificationScheduler
