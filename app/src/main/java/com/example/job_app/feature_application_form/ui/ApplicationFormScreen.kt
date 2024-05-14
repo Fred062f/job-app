@@ -8,10 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.job_app.MainActivity
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModelFactory
 import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
@@ -33,6 +33,7 @@ fun ApplicationFormScreen(
     navigateBack: () -> Unit
 ) {
     val context = LocalContext.current
+    val activity = context as MainActivity
     NotificationHelper.createNotificationChannel(context)
 
     val viewModelFactory = ApplicationFormViewModelFactory(firestoreRepository, notificationScheduler)
@@ -96,6 +97,7 @@ fun ApplicationFormScreen(
 
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
             Button(onClick = {
+                activity.requestNotificationPermission()
                 val jobApplication = JobApplication(
                     jobTitle = applicationFormViewModel.jobTitle,
                     status = false,
@@ -110,16 +112,24 @@ fun ApplicationFormScreen(
                 Text(text = "Opret ansøgning")
             }
         }
+    }
 
-        if (showDatePicker) {
-            MyDatePickerDialog(
-                onDateSelected = { selectedDate ->
-                    applicationFormViewModel.date = selectedDate
-                    showDatePicker = false
-                },
-                onDismiss = { showDatePicker = false }
-            )
-        }}}
+    if (showDatePicker) {
+        MyDatePickerDialog(
+            onDateSelected = { selectedDate ->
+                applicationFormViewModel.date = selectedDate
+                showDatePicker = false
+            },
+            onDismiss = { showDatePicker = false }
+        )
+    }
+}
+
+private fun convertMillisToDateString(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePickerDialog(
@@ -154,16 +164,4 @@ fun MyDatePickerDialog(
     ) {
         DatePicker(state = datePickerState)
     }
-}
-
-private fun convertMillisToDateString(millis: Long): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun AppFormPreview() {
-    MyDatePickerDialog(onDateSelected = {}, onDismiss = {})
 }
