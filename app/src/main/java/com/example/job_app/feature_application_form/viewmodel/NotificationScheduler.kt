@@ -5,7 +5,7 @@ import com.example.job_app.util.NotificationHelper
 
 // When "opret ansøgning" bliver triggered sammen med en dato
 class NotificationScheduler(private val context: Context) {
-    fun scheduleNotificationForApplication(dueDate: com.google.firebase.Timestamp) {
+    fun scheduleNotificationForApplication(dueDate: Long) {
         // Calculate the exact time to trigger the notification (e.g., 3 seconds from now)
         val triggerTime = System.currentTimeMillis() + 3000  // For immediate effect in testing
 

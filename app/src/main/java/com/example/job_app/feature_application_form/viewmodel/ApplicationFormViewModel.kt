@@ -1,6 +1,5 @@
 package com.example.job_app.feature_application_form.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
@@ -11,9 +10,7 @@ import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import com.example.job_app.util.NotificationHelper
 import java.text.ParseException
-
 
 class ApplicationFormViewModel(
     private val firestoreRepository: FirestoreRepository,
@@ -33,7 +30,7 @@ class ApplicationFormViewModel(
 
     fun convertDateStringToTimestamp(): Timestamp? {
         if (date == "Klik for at vælge dato") {
-            return null  // Or handle it in another appropriate way
+            return null
         }
         val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return try {
@@ -47,33 +44,16 @@ class ApplicationFormViewModel(
             }
             Timestamp(calendar.time)
         } catch (e: ParseException) {
-            null  // Or log the error and handle it
+            null
         }
-    }
-
-
-    // could be deleted
-    fun scheduleNotificationForJobApplication(context: Context) {
-        val timestamp = convertDateStringToTimestamp()
-        val notificationTime = (timestamp?.seconds ?: 10) * 1000 - 24 * 3600 * 1000  // 24 hours before the deadline
-
-        NotificationHelper.scheduleNotification(
-            context,
-            3, "ww", "www"
-        )
     }
 
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
         firestoreRepository.addJobApplicationToList(jobApplication, userId) {
             convertDateStringToTimestamp()?.let {
-                notificationScheduler.scheduleNotificationForApplication(
-                    it
-                )
+                notificationScheduler.scheduleNotificationForApplication(it.seconds * 1000)
             }
             navigateBack()
         }
     }
-
-
-
 }
