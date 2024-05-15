@@ -1,17 +1,16 @@
 package com.example.job_app.util
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import java.util.concurrent.atomic.AtomicInteger
+
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
+    private val notificationId = AtomicInteger(0)
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -27,17 +26,10 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String) {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
-            != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            // Optionally request the permission here.
-            return
-        }
-
+    fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String, notificationId: Int) {
         val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
         if (!notificationManager.areNotificationsEnabled()) {
-            // Notifications are disabled for the app
+            // Tilladelse er ikke givet
             return
         }
 
@@ -49,6 +41,11 @@ object NotificationHelper {
             .setWhen(triggerTime)
             .setAutoCancel(true)
 
-        notificationManager.notify(0, builder.build())
+        // Planlægger notifikationen
+        notificationManager.notify(notificationId, builder.build())
+    }
+
+    fun getUniqueNotificationId(): Int {
+        return notificationId.incrementAndGet()
     }
 }
