@@ -6,9 +6,11 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import java.util.concurrent.atomic.AtomicInteger
 
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
+    private val notificationId = AtomicInteger(0)
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -24,10 +26,10 @@ object NotificationHelper {
         }
     }
 
-    fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String) {
+    fun scheduleNotification(context: Context, triggerTime: Long, title: String, content: String, notificationId: Int) {
         val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
         if (!notificationManager.areNotificationsEnabled()) {
-            // tilladelse er ikke givet
+            // Tilladelse er ikke givet
             return
         }
 
@@ -39,7 +41,11 @@ object NotificationHelper {
             .setWhen(triggerTime)
             .setAutoCancel(true)
 
-        // denne virker men lyser rødt
-        notificationManager.notify(1, builder.build())
+        // Planlægger notifikationen
+        notificationManager.notify(notificationId, builder.build())
+    }
+
+    fun getUniqueNotificationId(): Int {
+        return notificationId.incrementAndGet()
     }
 }
