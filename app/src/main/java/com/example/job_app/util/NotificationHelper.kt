@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.job_app.R
 import java.util.concurrent.atomic.AtomicInteger
 
 object NotificationHelper {
@@ -34,14 +35,14 @@ object NotificationHelper {
         }
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.drawable.logosmall)
             .setContentTitle(title)
             .setContentText(content)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setWhen(triggerTime)
             .setAutoCancel(true)
 
-        // Planlægger notifikationen
+        // Planlægger notifikationen - virke selvom den lyser rødt
         notificationManager.notify(notificationId, builder.build())
     }
 

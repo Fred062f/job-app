@@ -2,6 +2,7 @@ package com.example.job_app.feature_auth.ui
 import androidx.compose.foundation.Image
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,15 +49,12 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-
-        // Place your logo image here
         Image(
             painter = painterResource(id = R.drawable.logo),
-            modifier = Modifier.size(200.dp),
+            modifier = Modifier.size(300.dp),
             contentDescription = "Logo"
         )
-        Spacer(modifier = Modifier.height(16.dp))
+
 
         Box(
             modifier = Modifier
@@ -119,20 +117,14 @@ fun LoginScreen(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {  navigateToRegisterScreen()  },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-            modifier = Modifier
-                .padding(horizontal = padding * 2)
-                .height(48.dp)
-                .width(275.dp)
-
-        ) {
-            Text("Register", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp ))
-        }
+        Text(
+            text = "Dont have an account? Click here",
+            color = Color.White,
+            modifier = Modifier.clickable { navigateToRegisterScreen() }
+        )}
     }
 
 
-}
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {

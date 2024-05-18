@@ -68,11 +68,10 @@ fun RegisterScreen(
 
         Image(
             painter = painterResource(id = R.drawable.logo),
-            modifier = Modifier.size(200.dp),
+            modifier = Modifier.size(300.dp),
             contentDescription = "Logo"
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
         OutlinedTextField(
             value = registerViewModel.email,
             onValueChange = { registerViewModel.onEmailChange(it) },
