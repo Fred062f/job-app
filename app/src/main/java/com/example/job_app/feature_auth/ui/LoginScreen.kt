@@ -22,7 +22,7 @@ fun LoginScreen(
 ) {
     val loginViewModel: LoginViewModel = viewModel()
     if (loginViewModel.shouldShowDialog) {
-        AlertDialog(title = "Fejl", text = "E-mail eller password er ikke gyldig")
+        AlertDialog(title = "Fejl", text = "E-mail eller adgangskode er ikke gyldig")
     }
     Column(
         modifier = Modifier
@@ -40,7 +40,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = loginViewModel.password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
-            label = { Text("Password") },
+            label = { Text("Adgangskode") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )

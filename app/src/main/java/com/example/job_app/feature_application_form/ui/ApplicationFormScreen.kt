@@ -30,11 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import com.example.job_app.navigation.ui.BottomNavigationBar
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -43,7 +45,8 @@ import java.util.Date
 fun ApplicationFormScreen(
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navController: NavController
 ) {
     val applicationFormViewModel: ApplicationFormViewModel = viewModel()
     val homeViewModel: HomeViewModel = viewModel()
@@ -103,9 +106,9 @@ fun ApplicationFormScreen(
             MyDatePickerDialog()
         }
 
-        Spacer(modifier = Modifier.size(65.dp))
+        Spacer(modifier = Modifier.size(30.dp))
 
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
+        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
             Button(onClick = {
                 if (applicationFormViewModel.jobTitle.isEmpty()) {
                     applicationFormViewModel.shouldShowDialogOnJobTitleError = true
@@ -136,6 +139,12 @@ fun ApplicationFormScreen(
                 Text(text = "Opret ansøgning")
             }
         }
+    }
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        BottomNavigationBar(navController)
     }
 }
 

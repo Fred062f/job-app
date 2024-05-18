@@ -1,4 +1,4 @@
-package com.example.job_app.feature_application.feature_application.ui
+package com.example.job_app.feature_application.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.job_app.feature_application.feature_application.viewmodel.ApplicationViewModel
+import com.example.job_app.feature_application.viewmodel.ApplicationViewModel
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme

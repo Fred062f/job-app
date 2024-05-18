@@ -1,13 +1,17 @@
 package com.example.job_app.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.job_app.feature_application.feature_application.ui.ApplicationScreen
+import com.example.job_app.feature_application.ui.ApplicationScreen
 import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
 import com.example.job_app.feature_auth.ui.LoginScreen
 import com.example.job_app.feature_auth.ui.RegisterScreen
+import com.example.job_app.feature_feedback.ui.RequestScreen
+import com.example.job_app.feature_feedback.ui.ResponseScreen
 import com.example.job_app.feature_home.ui.HomeScreen
 import com.example.job_app.feature_profile.ui.ProfileScreen
 
@@ -38,7 +42,8 @@ fun Navigation() {
         composable("add") {
             ApplicationFormScreen(navigateToLoginScreen = { navController.navigate("login") },
                 userIsNotAuthorized = {navController.navigate("login")},
-                navigateBack = { navController.popBackStack() })
+                navigateBack = { navController.popBackStack() },
+                navController = navController)
         }
         composable("application/{id}") {
             val id = navController.currentBackStackEntry?.arguments?.getString("id") ?: "No id"
@@ -48,6 +53,13 @@ fun Navigation() {
                 navigateToLoginScreen = { navController.navigate("login") },
                 navigateBack = { navController.popBackStack() }
             )
+        }
+        composable("request") {
+            RequestScreen(navController)
+        }
+        composable("response/{responseMessage}") { backStackEntry ->
+            val responseMessage = backStackEntry.arguments?.getString("responseMessage") ?: ""
+            ResponseScreen(responseMessage, navController)
         }
     }
 }

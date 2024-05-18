@@ -39,7 +39,7 @@ fun RegisterScreen(
         OutlinedTextField(
             value = registerViewModel.password,
             onValueChange = { registerViewModel.onPasswordChange(it) },
-            label = { Text("Password") },
+            label = { Text("Adgangskode") },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )

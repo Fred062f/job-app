@@ -74,7 +74,8 @@ fun ApplicationDeadlines() {
 fun BottomFloatingActionButton(onClick: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd
+        contentAlignment = Alignment.TopEnd
+        //contentAlignment = Alignment.BottomEnd
     ) {
         LargeFloatingActionButton(
             onClick = { onClick() },
@@ -119,7 +120,7 @@ fun TopNavigationBar(
                 .clickable(onClick = { })
                 .alpha(0f)
         )
-        Text(text = "JobApp", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
+        Text(text = "AnsøgNemt", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = "Profile",
@@ -162,7 +163,7 @@ fun AlternativeTopNavigationBar(
                 .padding(8.dp)
                 .clickable(onClick = { navigateBack() })
         )
-        Text(text = "JobApp", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
+        Text(text = "AnsøgNemt", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
             contentDescription = "Logout",
