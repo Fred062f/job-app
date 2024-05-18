@@ -1,30 +1,33 @@
-package com.example.job_app.feature_profile.ui
-
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.job_app.feature_home.ui.HomeScreen
-import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.job_app.R
+import com.example.job_app.feature_home.viewmodel.ProfileViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
+
 @Composable
-fun ProfileScreen(
-    navigateOnSuccess: () -> Unit,
-    userIsNotAuthorized: () -> Unit
-) {
-    val homeViewModel: HomeViewModel = viewModel()
-    // If user is not authorized navigate to login screen
-    if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
-    val email = homeViewModel.getCurrentUser()
+fun ProfileScreen(navController: NavHostController) {
+    val profileViewModel: ProfileViewModel = viewModel()
+    val name = "profileViewModel.name"
+    val email = "profileViewModel.email"
+    val lastName = "profileViewModel.lastName"
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,9 +35,35 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Logged in as $email")
+        Text("Logged in as $email", fontWeight = Bold)
 
-        Button(onClick = { homeViewModel.signOut(navigateOnSuccess) }) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+            contentDescription = "Profile Picture",
+            modifier = Modifier.size(100.dp)
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(text = "$name $lastName")
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            OutlinedButton(onClick = { navController.navigate("editprofile") }) {
+                Text(text = "Edit Details")
+            }
+            OutlinedButton(onClick = { navController.navigate("mydocuments") }) {
+                Text(text = "My Documents")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(onClick = {
+            profileViewModel.signOut {
+                navController.popBackStack(route = "login", inclusive = false)
+            }
+        }) {
             Text("Logout")
         }
     }
@@ -44,6 +73,6 @@ fun ProfileScreen(
 @Composable
 fun ProfileScreenPreview() {
     JobappTheme {
-        ProfileScreen(navigateOnSuccess = {}, userIsNotAuthorized = {})
+        ProfileScreen(rememberNavController())
     }
 }

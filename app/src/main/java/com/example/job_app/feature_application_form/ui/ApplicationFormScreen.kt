@@ -1,6 +1,7 @@
 package com.example.job_app.feature_application_form.ui
 
 import android.util.Log
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -25,31 +27,46 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.feature_auth.ui.AlertDialog
+import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModelFactory
+import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
 import com.example.job_app.feature_home.models.JobApplication
+import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.navigation.ui.BottomNavigationBar
+import com.example.job_app.util.NotificationHelper
+import com.example.job_app.MainActivity
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationFormScreen(
+    firestoreRepository: FirestoreRepository,
+    notificationScheduler: NotificationScheduler,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
     navigateBack: () -> Unit,
     navController: NavController
 ) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+    val context = LocalContext.current
+    val activity = context as MainActivity
+    NotificationHelper.createNotificationChannel(context)
+
+    val viewModelFactory = ApplicationFormViewModelFactory(firestoreRepository, notificationScheduler)
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
     val homeViewModel: HomeViewModel = viewModel()
+
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
     if (applicationFormViewModel.shouldShowDialogOnJobTitleError) {
@@ -57,6 +74,18 @@ fun ApplicationFormScreen(
     }
     if (applicationFormViewModel.shouldShowDialogOnDateError) {
         AlertDialog(title = "Fejl", text = "Datoen er ikke gyldig")
+    }
+    
+    var showDatePicker by remember { mutableStateOf(false) }
+    
+    if (showDatePicker) {
+        MyDatePickerDialog(
+            onDateSelected = { selectedDate ->
+                applicationFormViewModel.date = selectedDate
+                showDatePicker = false
+            },
+            onDismiss = { showDatePicker = false }
+        )
     }
 
     Column(
@@ -77,8 +106,7 @@ fun ApplicationFormScreen(
         TextField(
             value = applicationFormViewModel.jobTitle,
             onValueChange = { applicationFormViewModel.onJobTitleChange(it) },
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             placeholder = { Text("Indtast jobtitel") }
         )
 
@@ -87,7 +115,7 @@ fun ApplicationFormScreen(
         Text(text = "Beskrivelse (Valgfrit):")
         TextField(
             value = applicationFormViewModel.description,
-            onValueChange = {  applicationFormViewModel.onDescriptionChange(it) },
+            onValueChange = { applicationFormViewModel.onDescriptionChange(it) },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp),
@@ -106,39 +134,39 @@ fun ApplicationFormScreen(
             MyDatePickerDialog()
         }
 
-        Spacer(modifier = Modifier.size(30.dp))
+        TextButton(onClick = { showDatePicker = true }) {
+        Text(text = applicationFormViewModel.date)
+      }
 
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
-            Button(onClick = {
-                if (applicationFormViewModel.jobTitle.isEmpty()) {
-                    applicationFormViewModel.shouldShowDialogOnJobTitleError = true
-                    return@Button
-                } else {
-                    try {
-                        applicationFormViewModel.addJobApplicationToList(
-                            JobApplication(
-                                jobTitle = applicationFormViewModel.jobTitle,
-                                status = false,
-                                timestamp = applicationFormViewModel.convertDateStringToTimestamp(),
-                                description = applicationFormViewModel.description
-                            ),
-                            userId = homeViewModel.getCurrentUser()?.uid.toString(),
-                            navigateBack = navigateBack
-                        )
-                    } catch (e: Exception) {
-                        Log.e("JobApplicationForm", "Error adding job application to list", e)
-                        applicationFormViewModel.shouldShowDialogOnDateError = true
-                        return@Button
-                    }
+      Spacer(modifier = Modifier.size(65.dp))
+
+      Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
+        Button(onClick = {
+            if (applicationFormViewModel.jobTitle.isEmpty()) {
+                applicationFormViewModel.shouldShowDialogOnJobTitleError = true
+            } else {
+                try {
+                    val jobApplication = JobApplication(
+                        jobTitle = applicationFormViewModel.jobTitle,
+                        status = false,
+                        timestamp = applicationFormViewModel.convertDateStringToTimestamp()
+                    )
+                    activity.scheduleNotificationWithPermissionCheck(jobApplication)
+                    applicationFormViewModel.addJobApplicationToList(
+                        jobApplication,
+                        homeViewModel.getCurrentUser()?.uid.toString(),
+                        navigateBack
+                    )
+                } catch (e: Exception) {
+                    Log.e("JobApplicationForm", "Error adding job application to list", e)
+                    applicationFormViewModel.shouldShowDialogOnDateError = true
                 }
             }
-                , modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(width = 200.dp, height = 50.dp)
-            ) {
-                Text(text = "Opret ansøgning")
-            }
+        }) {
+            Text("Add Job Application")
         }
+      }
+
     }
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -148,9 +176,9 @@ fun ApplicationFormScreen(
     }
 }
 
-
-private fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy")
+// Konverterer millisekunder til en dato streng
+private fun convertMillisToDateString(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
 
@@ -167,7 +195,7 @@ fun MyDatePickerDialog(
     })
 
     val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
+        convertMillisToDateString(it)
     } ?: ""
 
     DatePickerDialog(
@@ -176,51 +204,16 @@ fun MyDatePickerDialog(
             Button(onClick = {
                 onDateSelected(selectedDate)
                 onDismiss()
-            }
-
-            ) {
+            }) {
                 Text(text = "OK")
             }
         },
         dismissButton = {
-            Button(onClick = {
-                onDismiss()
-            }) {
+            Button(onClick = { onDismiss() }) {
                 Text(text = "Luk")
             }
         }
     ) {
-        DatePicker(
-            state = datePickerState
-        )
+        DatePicker(state = datePickerState)
     }
-}
-
-@Composable
-fun MyDatePickerDialog() {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
-
-    var showDatePicker by remember {
-        mutableStateOf(false)
-    }
-
-    Box(contentAlignment = Alignment.Center) {
-        TextButton(onClick = {  showDatePicker = true }) {
-            Text(text = applicationFormViewModel.date)
-        }
-    }
-    
-
-    if (showDatePicker) {
-        MyDatePickerDialog(
-            onDateSelected = { applicationFormViewModel.date = it },
-            onDismiss = { showDatePicker = false }
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AppFormPreview() {
-    MyDatePickerDialog()
 }
