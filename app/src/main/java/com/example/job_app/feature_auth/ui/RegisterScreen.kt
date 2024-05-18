@@ -45,7 +45,7 @@ fun RegisterScreen(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
     if (registerViewModel.shouldShowDialog) {
-        AlertDialog(text = "Register failure")
+        AlertDialog(title = "Fejl", text = "Der skete en fejl ved oprettelse af bruger")
     }
     Box(contentAlignment = Alignment.TopStart, modifier = Modifier.fillMaxWidth()) {
         IconButton(
@@ -94,7 +94,8 @@ fun RegisterScreen(
         OutlinedTextField(
             value = registerViewModel.password,
             onValueChange = { registerViewModel.onPasswordChange(it) },
-            label = { Text("Password...", color = Color.White) },
+            label = { Text("Adgangskode...", color = Color.White) },
+            visualTransformation = PasswordVisualTransformation()
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f),
             shape = RoundedCornerShape(24.dp),
@@ -107,8 +108,11 @@ fun RegisterScreen(
                 unfocusedBorderColor = Color.White,
                 disabledBorderColor = Color.Transparent,
                 focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.White))
+                unfocusedLabelColor = Color.White)
+          )
+            
         Spacer(modifier = Modifier.height(6.dp))
+        
         Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier
@@ -116,16 +120,18 @@ fun RegisterScreen(
                 .height(48.dp)
                 .width(275.dp)
         ) {
-            Text("Create user", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
+            Text("Opret konto", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
         }
+        
         Spacer(modifier = Modifier.height(6.dp))
+        
         Text(
-            text = "Already have an account? Click here",
+            text = "Har du allerede en konto? Klik her",
             color = Color.White,
             modifier = Modifier.clickable { navigateToLoginScreen() }
         )}
-
 }
+
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview() {

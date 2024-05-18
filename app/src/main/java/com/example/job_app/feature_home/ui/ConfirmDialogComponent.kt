@@ -1,7 +1,6 @@
-package com.example.job_app.feature_auth.ui
+package com.example.job_app.feature_home.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,19 +9,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
+import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
-
 @Composable
-fun AlertDialog(title: String, text: String) {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+fun ConfirmDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
+    val homeViewModel: HomeViewModel = viewModel()
     val openDialog = remember { mutableStateOf(true) }
     if (openDialog.value) { // 2
-        AlertDialog( // 3
+        androidx.compose.material3.AlertDialog( // 3
             onDismissRequest = { // 4
                 openDialog.value = false
-                applicationFormViewModel.shouldShowDialogOnJobTitleError = false
-                applicationFormViewModel.shouldShowDialogOnDateError = false
+                homeViewModel.shouldShowDialog = false
+                homeViewModel.logoutDialog = false
             },
             // 5
             title = { Text(title) },
@@ -30,15 +28,27 @@ fun AlertDialog(title: String, text: String) {
             confirmButton = { // 6
                 Button(
                     onClick = {
+                        onConfirm()
                         openDialog.value = false
-                        applicationFormViewModel.shouldShowDialogOnJobTitleError = false
-                        applicationFormViewModel.shouldShowDialogOnDateError = false
+                        homeViewModel.shouldShowDialog = false
+                        homeViewModel.logoutDialog = false
                     }
                 ) {
                     Text(
-                        text = "OK",
+                        text = "Ja",
                         color = Color.White
                     )
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        openDialog.value = false
+                        homeViewModel.shouldShowDialog = false
+                        homeViewModel.logoutDialog = false
+                    }
+                ) {
+                    Text("Nej")
                 }
             }
         )
@@ -47,11 +57,10 @@ fun AlertDialog(title: String, text: String) {
 
 @Preview(showBackground = true)
 @Composable
-fun AlertDialogPreview() {
+fun ConfirmDialogComponentPreview() {
     JobappTheme {
         Column {
-            AlertDialog(title = "Error", text = "Text")
+            ConfirmDialogComponent(title = "Error", text = "Text", onConfirm = {})
         }
     }
 }
-

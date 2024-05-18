@@ -1,9 +1,10 @@
 package com.example.job_app.feature_application_form.viewmodel
 
-import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.mutableStateOf
+import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.google.firebase.Timestamp
@@ -16,9 +17,10 @@ class ApplicationFormViewModel(
     private val firestoreRepository: FirestoreRepository,
     private val notificationScheduler: NotificationScheduler
 ) : ViewModel() {
+  
     var jobTitle by mutableStateOf("")
-    var date by mutableStateOf("Klik for at vælge dato")
     var description by mutableStateOf("")
+    var date by mutableStateOf("Klik for at vælge dato")
 
     fun onJobTitleChange(newTitle: String) {
         jobTitle = newTitle
@@ -47,6 +49,14 @@ class ApplicationFormViewModel(
             null
         }
     }
+
+    fun onDescriptionChange(description: String) {
+        this.description = description;
+    }
+
+    var shouldShowDialogOnJobTitleError by mutableStateOf(false)
+
+    var shouldShowDialogOnDateError by mutableStateOf(false)
 
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
         firestoreRepository.addJobApplicationToList(jobApplication, userId) {

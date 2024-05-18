@@ -1,7 +1,9 @@
 package com.example.job_app.feature_home.viewmodel
 
 import android.annotation.SuppressLint
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.job_app.feature_auth.repository.AuthRepository
@@ -23,6 +25,13 @@ class HomeViewModel : ViewModel() {
     fun signOut(navigateOnSuccess: () -> Unit) {
         authRepository.signOut(navigateOnSuccess)
     }
+
+    var logoutDialog by mutableStateOf(false)
+
+    var shouldShowDialog by mutableStateOf(false)
+
+    var itemId by mutableStateOf("")
+
 
     @SuppressLint("MutableCollectionMutableState")
     var state = mutableStateOf(mutableListOf(JobApplication()))
