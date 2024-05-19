@@ -52,8 +52,6 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationFormScreen(
-    firestoreRepository: FirestoreRepository,
-    notificationScheduler: NotificationScheduler,
     navigateToLoginScreen: () -> Unit,
     userIsNotAuthorized: () -> Unit,
     navigateBack: () -> Unit,
@@ -61,12 +59,11 @@ fun ApplicationFormScreen(
 ) {
     val context = LocalContext.current
     val activity = context as MainActivity
-    NotificationHelper.createNotificationChannel(context)
 
-    val viewModelFactory = ApplicationFormViewModelFactory(firestoreRepository, notificationScheduler)
+    NotificationHelper.createNotificationChannel(context)
+    val viewModelFactory = ApplicationFormViewModelFactory(notificationScheduler = NotificationScheduler(context))
     val applicationFormViewModel: ApplicationFormViewModel = viewModel(factory = viewModelFactory)
     val homeViewModel: HomeViewModel = viewModel()
-
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
     if (applicationFormViewModel.shouldShowDialogOnJobTitleError) {
@@ -74,18 +71,6 @@ fun ApplicationFormScreen(
     }
     if (applicationFormViewModel.shouldShowDialogOnDateError) {
         AlertDialog(title = "Fejl", text = "Datoen er ikke gyldig")
-    }
-    
-    var showDatePicker by remember { mutableStateOf(false) }
-    
-    if (showDatePicker) {
-        MyDatePickerDialog(
-            onDateSelected = { selectedDate ->
-                applicationFormViewModel.date = selectedDate
-                showDatePicker = false
-            },
-            onDismiss = { showDatePicker = false }
-        )
     }
 
     Column(
@@ -134,36 +119,37 @@ fun ApplicationFormScreen(
             MyDatePickerDialog()
         }
 
-        TextButton(onClick = { showDatePicker = true }) {
-        Text(text = applicationFormViewModel.date)
-      }
+      Spacer(modifier = Modifier.size(30.dp))
 
-      Spacer(modifier = Modifier.size(65.dp))
-
-      Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomCenter) {
+      Box(modifier = Modifier.fillMaxWidth().size(width = 200.dp, height = 50.dp), contentAlignment = Alignment.Center) {
         Button(onClick = {
             if (applicationFormViewModel.jobTitle.isEmpty()) {
                 applicationFormViewModel.shouldShowDialogOnJobTitleError = true
+                return@Button
             } else {
                 try {
                     val jobApplication = JobApplication(
                         jobTitle = applicationFormViewModel.jobTitle,
                         status = false,
-                        timestamp = applicationFormViewModel.convertDateStringToTimestamp()
+                        timestamp = applicationFormViewModel.convertDateStringToTimestamp(),
+                        description = applicationFormViewModel.description
                     )
+
                     activity.scheduleNotificationWithPermissionCheck(jobApplication)
+
                     applicationFormViewModel.addJobApplicationToList(
-                        jobApplication,
-                        homeViewModel.getCurrentUser()?.uid.toString(),
-                        navigateBack
+                        jobApplication = jobApplication,
+                        userId = homeViewModel.getCurrentUser()?.uid.toString(),
+                        navigateBack = navigateBack
                     )
                 } catch (e: Exception) {
                     Log.e("JobApplicationForm", "Error adding job application to list", e)
                     applicationFormViewModel.shouldShowDialogOnDateError = true
+                    return@Button
                 }
             }
         }) {
-            Text("Add Job Application")
+            Text("Opret ansøgning")
         }
       }
 
@@ -215,5 +201,28 @@ fun MyDatePickerDialog(
         }
     ) {
         DatePicker(state = datePickerState)
+    }
+}
+
+@Composable
+fun MyDatePickerDialog() {
+    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
+
+    var showDatePicker by remember {
+        mutableStateOf(false)
+    }
+
+    Box(contentAlignment = Alignment.Center) {
+        TextButton(onClick = {  showDatePicker = true }) {
+            Text(text = applicationFormViewModel.date)
+        }
+    }
+
+
+    if (showDatePicker) {
+        MyDatePickerDialog(
+            onDateSelected = { applicationFormViewModel.date = it },
+            onDismiss = { showDatePicker = false }
+        )
     }
 }

@@ -211,7 +211,7 @@ fun ListItem(
     navController: NavController
 ) {
     val homeViewModel: HomeViewModel = viewModel()
-    val userId = "homeViewModel.getCurrentUser()?.uid"
+    val userId = homeViewModel.getCurrentUser()?.uid
     val sorted = items.sortedBy { it.timestamp }
 
     if (homeViewModel.shouldShowDialog) {

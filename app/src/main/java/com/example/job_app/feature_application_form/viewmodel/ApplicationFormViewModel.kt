@@ -14,44 +14,36 @@ import java.util.Locale
 import java.text.ParseException
 
 class ApplicationFormViewModel(
-    private val firestoreRepository: FirestoreRepository,
     private val notificationScheduler: NotificationScheduler
 ) : ViewModel() {
+    private val firestoreRepository: FirestoreRepository = FirestoreRepository()
   
     var jobTitle by mutableStateOf("")
     var description by mutableStateOf("")
     var date by mutableStateOf("Klik for at vælge dato")
 
-    fun onJobTitleChange(newTitle: String) {
-        jobTitle = newTitle
-    }
-
-    fun onDescriptionChange(newDescription: String) {
-        description = newDescription
-    }
-
-    fun convertDateStringToTimestamp(): Timestamp? {
-        if (date == "Klik for at vælge dato") {
-            return null
-        }
-        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return try {
-            val parsedDate = format.parse(date)
-            val calendar = Calendar.getInstance().apply {
-                time = parsedDate
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-            Timestamp(calendar.time)
-        } catch (e: ParseException) {
-            null
-        }
+    fun onJobTitleChange(jobTitle: String) {
+        this.jobTitle = jobTitle
     }
 
     fun onDescriptionChange(description: String) {
         this.description = description;
+    }
+
+    fun convertDateStringToTimestamp(): Timestamp {
+        val format = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date = format.parse(date)
+
+        val calendar = Calendar.getInstance()
+        calendar.time = date!!
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        // Convert the date to a Firebase Timestamp
+        val timestamp = Timestamp(calendar.time)
+        return timestamp
     }
 
     var shouldShowDialogOnJobTitleError by mutableStateOf(false)
@@ -59,11 +51,9 @@ class ApplicationFormViewModel(
     var shouldShowDialogOnDateError by mutableStateOf(false)
 
     fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
-        firestoreRepository.addJobApplicationToList(jobApplication, userId) {
-            convertDateStringToTimestamp()?.let {
-                notificationScheduler.scheduleNotificationForApplication(jobTitle,description,it.seconds.toString())
-            }
-            navigateBack()
+        firestoreRepository.addJobApplicationToList(jobApplication, userId, navigateBack) {
+            notificationScheduler.scheduleNotificationForApplication(jobTitle,description,jobApplication.timestamp?.seconds.toString())
         }
     }
+
 }

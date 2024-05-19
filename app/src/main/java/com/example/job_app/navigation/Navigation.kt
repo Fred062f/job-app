@@ -70,9 +70,7 @@ fun Navigation() {
                 navigateToLoginScreen = { navController.navigate("login") },
                 userIsNotAuthorized = { navController.navigate("login") },
                 navigateBack = { navController.popBackStack() },
-                navController = navController,  // Include this if required
-                firestoreRepository = FirestoreRepository(),
-                notificationScheduler = NotificationScheduler(LocalContext.current)
+                navController = navController,
             )
         }
         composable("application/{id}") {

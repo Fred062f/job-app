@@ -95,7 +95,7 @@ fun RegisterScreen(
             value = registerViewModel.password,
             onValueChange = { registerViewModel.onPasswordChange(it) },
             label = { Text("Adgangskode...", color = Color.White) },
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             modifier = Modifier.fillMaxWidth(0.8f),
             shape = RoundedCornerShape(24.dp),

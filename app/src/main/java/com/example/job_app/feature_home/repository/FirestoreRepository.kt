@@ -77,11 +77,12 @@ class FirestoreRepository {
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
-    fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit) {
+    fun addJobApplicationToList(jobApplication: JobApplication, userId: String, navigateBack: () -> Unit, notify: () -> Unit) {
         db.collection("users").document(userId).collection("jobApplications")
             .add(jobApplication)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG,"DocumentSnapshot added with ID: ${documentReference.id}")
+                notify()
                 navigateBack()
             }
             .addOnFailureListener { e ->
