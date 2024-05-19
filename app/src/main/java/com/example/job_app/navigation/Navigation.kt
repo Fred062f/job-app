@@ -13,7 +13,6 @@ import com.example.job_app.feature_auth.ui.RegisterScreen
 import com.example.job_app.feature_feedback.ui.RequestScreen
 import com.example.job_app.feature_feedback.ui.ResponseScreen
 import com.example.job_app.feature_home.ui.HomeScreen
-import com.example.job_app.feature_profile.ui.ProfileScreen
 
 @Composable
 fun Navigation() {
@@ -34,10 +33,6 @@ fun Navigation() {
                 navigateToAddJobApplicationScreen = { navController.navigate("add") },
                 navController = navController
             )
-        }
-        composable("profile") {
-            ProfileScreen(navigateOnSuccess = {navController.navigate("login")},
-                userIsNotAuthorized = {navController.navigate("login")})
         }
         composable("add") {
             ApplicationFormScreen(navigateToLoginScreen = { navController.navigate("login") },
