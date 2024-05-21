@@ -1,15 +1,9 @@
 package com.example.job_app.feature_auth.repository
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import com.example.job_app.feature_application_form.viewmodel.applicationClass
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 
 class AuthRepository {
     // Initialize Firebase Auth

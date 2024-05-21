@@ -40,7 +40,7 @@ fun LoginScreen(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
     if (loginViewModel.shouldShowDialog) {
-        AlertDialog(text = "Login failure")
+        AlertDialog(title = "Fejl", text = "E-mail eller adgangskode er ikke gyldig")
     }
     Column(
         modifier = Modifier
@@ -86,7 +86,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = loginViewModel.password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
-            label = {Text("Password...", color = Color.White) },
+            label = {Text("Adgangskode...", color = Color.White) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(0.8f),
@@ -113,12 +113,12 @@ fun LoginScreen(
                 .height(48.dp)
                 .width(275.dp)
         ) {
-            Text("Login", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
+            Text("Log ind", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
         }
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Dont have an account? Click here",
+            text = "Har du ikke en konto? Klik her",
             color = Color.White,
             modifier = Modifier.clickable { navigateToRegisterScreen() }
         )}
