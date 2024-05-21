@@ -56,23 +56,22 @@ fun RegisterScreen(
         ) {
             Icon(Icons.Filled.ArrowBack, "Back", tint = Color.Black)
         }
-        }
+    }
     Column(
         modifier = Modifier
-            .fillMaxSize(0.8f)
+            .fillMaxSize(0.78f)
             .background(Color(0xFF1565C0)),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(125.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.logo),
-                modifier = Modifier.size(200.dp),
-                contentDescription = "Logo"
-            )
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            modifier = Modifier.size(300.dp),
+            contentDescription = "Logo"
+        )
 
-        Spacer(modifier = Modifier.height(14.dp))
         OutlinedTextField(
             value = registerViewModel.email,
             onValueChange = { registerViewModel.onEmailChange(it) },
@@ -92,32 +91,32 @@ fun RegisterScreen(
                 unfocusedLabelColor = Color.White))
 
 
-    OutlinedTextField(
-        value = registerViewModel.password,
-        onValueChange = { registerViewModel.onPasswordChange(it) },
-        label = { Text("Password...", color = Color.White) },
-        singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f),
-        shape = RoundedCornerShape(24.dp),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedTextColor = Color.White,
-            unfocusedTextColor = Color.White,
-            disabledTextColor = Color.White,
-            cursorColor = Color.White,
-            focusedBorderColor = Color.White,
-            unfocusedBorderColor = Color.White,
-            disabledBorderColor = Color.Transparent,
-            focusedLabelColor = Color.White,
-            unfocusedLabelColor = Color.White))
+        OutlinedTextField(
+            value = registerViewModel.password,
+            onValueChange = { registerViewModel.onPasswordChange(it) },
+            label = { Text("Password...", color = Color.White) },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            shape = RoundedCornerShape(24.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                disabledTextColor = Color.White,
+                cursorColor = Color.White,
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                disabledBorderColor = Color.Transparent,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White))
         Spacer(modifier = Modifier.height(6.dp))
-    Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) },
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        modifier = Modifier
-            .padding(horizontal = padding)
-            .height(48.dp)
-            .width(275.dp)
-    ) {
-        Text("Create user", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
+        Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+            modifier = Modifier
+                .padding(horizontal = padding)
+                .height(48.dp)
+                .width(275.dp)
+        ) {
+            Text("Create user", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
         }
         Spacer(modifier = Modifier.height(6.dp))
         Text(
