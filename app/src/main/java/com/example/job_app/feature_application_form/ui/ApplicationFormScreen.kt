@@ -116,7 +116,7 @@ fun ApplicationFormScreen(
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Dato:")
             Spacer(modifier = Modifier.size(10.dp))
-            MyDatePickerDialog()
+            DatePickerDialog()
         }
 
       Spacer(modifier = Modifier.size(30.dp))
@@ -170,7 +170,7 @@ private fun convertMillisToDateString(millis: Long): String {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyDatePickerDialog(
+fun DatePicker(
     onDateSelected: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -182,7 +182,7 @@ fun MyDatePickerDialog(
 
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDateString(it)
-    } ?: ""
+    } ?: "Klik for at vælge dato"
 
     DatePickerDialog(
         onDismissRequest = { onDismiss() },
@@ -205,7 +205,7 @@ fun MyDatePickerDialog(
 }
 
 @Composable
-fun MyDatePickerDialog() {
+fun DatePickerDialog() {
     val applicationFormViewModel: ApplicationFormViewModel = viewModel()
 
     var showDatePicker by remember {
@@ -220,7 +220,7 @@ fun MyDatePickerDialog() {
 
 
     if (showDatePicker) {
-        MyDatePickerDialog(
+        DatePicker(
             onDateSelected = { applicationFormViewModel.date = it },
             onDismiss = { showDatePicker = false }
         )

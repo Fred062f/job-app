@@ -1,6 +1,9 @@
 package com.example.job_app.navigation.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Create
@@ -20,19 +23,22 @@ import com.example.job_app.ui.theme.JobappTheme
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    NavigationBar(modifier = Modifier.border(1.dp, Color.LightGray, RoundedCornerShape(50.dp))) {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Hjem") },
-            label = { Text("Hjem") },
-            selected = false,
-            onClick = { navController.navigate("home") }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Create, contentDescription = "Feedback") },
-            label = { Text("Feedback") },
-            selected = false,
-            onClick = { navController.navigate("request") }
-        )
+    Box(
+        modifier = Modifier.padding(2.dp)) {
+        NavigationBar {
+            NavigationBarItem(
+                icon = { Icon(Icons.Filled.Home, contentDescription = "Hjem") },
+                label = { Text("Hjem") },
+                selected = false,
+                onClick = { navController.navigate("home") }
+            )
+            NavigationBarItem(
+                icon = { Icon(Icons.Filled.Create, contentDescription = "Feedback") },
+                label = { Text("Feedback") },
+                selected = false,
+                onClick = { navController.navigate("request") }
+            )
+        }
     }
 }
 
