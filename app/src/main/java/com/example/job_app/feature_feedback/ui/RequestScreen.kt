@@ -41,7 +41,7 @@ fun RequestScreen(navController: NavController) {
         .padding(10.dp)) {
         AlternativeTopNavigationBar(
             navigateToLoginScreen = { navController.navigate("login") },
-            navigateBack = { navController.popBackStack() }
+            navigateBack = { navController.navigate("home") }
         )
 
         if (loading) {

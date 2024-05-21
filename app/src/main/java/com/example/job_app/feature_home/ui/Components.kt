@@ -276,7 +276,7 @@ fun ListItem(
                             if (item.status == true) {
                                 Icon(
                                     Icons.Filled.CheckCircle,
-                                    tint = Color.Green,
+                                    tint = Color(0, 128, 0),
                                     contentDescription = "Localized description",
                                 )
                             } else {
