@@ -79,7 +79,8 @@ fun Navigation() {
                 id = id,
                 userIsNotAuthorized = { navController.navigate("login") },
                 navigateToLoginScreen = { navController.navigate("login") },
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
         composable("request") {
