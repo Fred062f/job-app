@@ -59,19 +59,24 @@ fun RegisterScreen(
     }
     Column(
         modifier = Modifier
-            .fillMaxSize(0.78f)
-            .background(Color(0xFF1565C0)),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .fillMaxSize(0.8f)
+            .background(Color(0xFF1565C0))
+            .padding(top = 25.dp),
+        verticalArrangement = Arrangement.spacedBy(1.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(125.dp))
-
+        Spacer(modifier = Modifier.height(60.dp))
         Image(
             painter = painterResource(id = R.drawable.logo),
-            modifier = Modifier.size(300.dp),
+            modifier = Modifier.size(200.dp),
             contentDescription = "Logo"
         )
-
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = "AnsøgNemt",
+            style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp), color = Color.White,
+        )
+        Spacer(modifier = Modifier.height(60.dp))
         OutlinedTextField(
             value = registerViewModel.email,
             onValueChange = { registerViewModel.onEmailChange(it) },
@@ -90,7 +95,7 @@ fun RegisterScreen(
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White))
 
-
+        Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
             value = registerViewModel.password,
             onValueChange = { registerViewModel.onPasswordChange(it) },
@@ -110,8 +115,8 @@ fun RegisterScreen(
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White)
           )
-            
-        Spacer(modifier = Modifier.height(6.dp))
+
+        Spacer(modifier = Modifier.height(32.dp))
         
         Button(onClick = { registerViewModel.createAccount(onRegisterSuccess) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -122,8 +127,8 @@ fun RegisterScreen(
         ) {
             Text("Opret konto", color = Color(0xFF1565C0),style = MaterialTheme.typography.titleLarge.copy(fontSize = 25.sp))
         }
-        
-        Spacer(modifier = Modifier.height(6.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
         
         Text(
             text = "Har du allerede en konto? Klik her",

@@ -6,23 +6,22 @@ import com.example.job_app.util.NotificationHelper
 class NotificationScheduler(private val context: Context) {
 
     fun scheduleNotificationForApplication(title: String, content: String, timestampString: String) {
-        // Attempt to parse the timestampString to Long
         val timestamp = timestampString.toLongOrNull()
 
         if (timestamp != null) {
             val currentTime = System.currentTimeMillis()
             val triggerTime24HoursBefore = timestamp - 24 * 60 * 60 * 1000
 
-            // Log messages for debugging
+            // Debugging
             println("Current time: $currentTime, Deadline time: $timestamp, 24 hours before: $triggerTime24HoursBefore")
 
-            // Schedule notification 24 hours before the deadline if it's in the future
+            // Schedule notification 24 hours before the deadline
             if (triggerTime24HoursBefore > currentTime) {
                 NotificationHelper.scheduleNotification(
                     context,
                     triggerTime24HoursBefore,
-                    "Job Application Reminder",
-                    "Reminder for your job application: $title",
+                    "Der er 24 timer til deadline!",
+                    "Husk at sende din ansøgning til: $title",
                     NotificationHelper.getUniqueNotificationId()
                 )
             } else {
@@ -30,7 +29,7 @@ class NotificationScheduler(private val context: Context) {
             }
 
         } else {
-            // Handle the case where the timestampString is not a valid number
+            // Hvis timestampString ikke er et valid number
             println("Invalid timestamp: $timestampString")
         }
     }

@@ -45,21 +45,28 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1565C0)),
-        verticalArrangement = Arrangement.Center,
+            .background(Color(0xFF1565C0))
+        .padding(top = 25.dp),
+        verticalArrangement = Arrangement.spacedBy(1.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(60.dp))
         Image(
             painter = painterResource(id = R.drawable.logo),
-            modifier = Modifier.size(300.dp),
+            modifier = Modifier.size(200.dp),
             contentDescription = "Logo"
         )
-
+        Spacer(modifier = Modifier.height(6.dp))
+        Text(
+            text = "AnsøgNemt",
+            style = MaterialTheme.typography.titleLarge.copy(fontSize = 32.sp), color = Color.White,
+        )
+        Spacer(modifier = Modifier.height(60.dp))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
-                .background(Color.Transparent, RoundedCornerShape(24.dp)) // Set the background here
+                .background(Color.Transparent, RoundedCornerShape(24.dp))
         ) {
             OutlinedTextField(
                 value = loginViewModel.username,
@@ -80,9 +87,7 @@ fun LoginScreen(
                     focusedLabelColor = Color.Gray,
                     unfocusedLabelColor = Color.Gray))
         }
-
-        Spacer(modifier = Modifier.height(12.dp))
-
+        Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
             value = loginViewModel.password,
             onValueChange = { loginViewModel.onPasswordChange(it) },
@@ -105,7 +110,6 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.height(32.dp))
-
         Button(onClick = { loginViewModel.signIn(onLoginSuccess) },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier
