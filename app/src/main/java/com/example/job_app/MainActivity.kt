@@ -64,9 +64,6 @@ class MainActivity : ComponentActivity() {
         val currentTime = System.currentTimeMillis()
         val triggerTime24HoursBefore = triggerTime - 24 * 60 * 60 * 1000
 
-        // Log beskeder for debugging
-        println("Current time: $currentTime, Deadline time: $triggerTime, 24 hours before: $triggerTime24HoursBefore")
-
         // Notifikation for 24 timer før deadline
         if (triggerTime24HoursBefore > currentTime) {
             NotificationHelper.scheduleNotification(
@@ -80,7 +77,7 @@ class MainActivity : ComponentActivity() {
             NotificationHelper.scheduleNotification(
                 this,
                 currentTime + 5000,  // Planlæg en notifikation om 5 sekunder, hvis deadline er mindre end 24 timer væk
-                "Job Application Reminder",
+                "Din ansøgning skal afleveres i dag!",
                 "Reminder for your job application: ${jobApplication.jobTitle}",
                 NotificationHelper.getUniqueNotificationId()
             )
