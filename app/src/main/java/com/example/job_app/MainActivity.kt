@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
 
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Notifikation adgang givet", Toast.LENGTH_SHORT).show()
                 jobApplicationToSchedule?.let {
                     scheduleNotifications(it)
                 }
             } else {
-                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Notifikation adgang nægtet", Toast.LENGTH_SHORT).show()
             }
             shouldScheduleNotification = false
             jobApplicationToSchedule = null
@@ -69,8 +69,8 @@ class MainActivity : ComponentActivity() {
             NotificationHelper.scheduleNotification(
                 this,
                 triggerTime24HoursBefore,
-                "Job Application Reminder",
-                "Reminder for your job application: ${jobApplication.jobTitle}",
+                "Husk din ansøgning!",
+                "Du har mindre end 24 timer til at aflevere din ansøgning til: ${jobApplication.jobTitle}",
                 NotificationHelper.getUniqueNotificationId()
             )
         } else {
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
                 this,
                 currentTime + 5000,  // Planlæg en notifikation om 5 sekunder, hvis deadline er mindre end 24 timer væk
                 "Din ansøgning skal afleveres i dag!",
-                "Reminder for your job application: ${jobApplication.jobTitle}",
+                "Du har mindre end 24 timer til at aflevere din ansøgning til: ${jobApplication.jobTitle}",
                 NotificationHelper.getUniqueNotificationId()
             )
         }
