@@ -4,7 +4,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-
+// Frederik
 class AuthRepository {
     // Initialize Firebase Auth
     private var auth: FirebaseAuth = Firebase.auth

@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.navigation.ui.BottomNavigationBar
-
+// Frederik
 @Composable
 fun ResponseScreen(responseMessage: String, navController: NavController) {
     Column(modifier = Modifier

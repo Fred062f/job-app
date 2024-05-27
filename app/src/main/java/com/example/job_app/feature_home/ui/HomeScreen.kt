@@ -24,7 +24,7 @@ import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.navigation.ui.BottomNavigationBar
 import com.example.job_app.ui.theme.JobappTheme
-
+// Frederik
 @Composable
 fun HomeScreen(
     navigateToLoginScreen: () -> Unit,

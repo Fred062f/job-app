@@ -35,7 +35,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.job_app.R
 import com.example.job_app.feature_auth.viewmodel.RegisterViewModel
 import com.example.job_app.ui.theme.JobappTheme
-
+// Frederik + Victor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(

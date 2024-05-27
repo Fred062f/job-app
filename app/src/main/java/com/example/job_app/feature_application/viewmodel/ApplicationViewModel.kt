@@ -9,7 +9,7 @@ import com.example.job_app.feature_auth.repository.AuthRepository
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import kotlinx.coroutines.launch
-
+// Frederik
 class ApplicationViewModel: ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
     private val firestoreRepository: FirestoreRepository = FirestoreRepository()

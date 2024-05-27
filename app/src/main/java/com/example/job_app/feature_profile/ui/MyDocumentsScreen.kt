@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.ui.theme.JobappTheme
 import com.example.job_app.R
-
+// Victor
 @Composable
 fun MyDocumentsScreen() {
     // Antag, at vi har to lister med filnavne for hver sektion

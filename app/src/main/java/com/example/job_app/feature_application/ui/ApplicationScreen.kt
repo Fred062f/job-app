@@ -27,7 +27,7 @@ import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.navigation.ui.BottomNavigationBar
 import com.example.job_app.ui.theme.JobappTheme
 import java.text.SimpleDateFormat
-
+// Frederik
 @Composable
 fun ApplicationScreen(
     id: String,

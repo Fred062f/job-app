@@ -3,7 +3,7 @@ package com.example.job_app.feature_feedback.api
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-
+// Frederik
 object CustomOkHttpClient {
     fun create(): OkHttpClient {
         return OkHttpClient.Builder()

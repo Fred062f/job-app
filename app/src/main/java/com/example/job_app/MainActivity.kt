@@ -18,7 +18,7 @@ import com.example.job_app.ui.theme.JobappTheme
 import com.example.job_app.util.NotificationHelper
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
-
+// Victor + Frederik
 class MainActivity : ComponentActivity() {
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
@@ -52,13 +52,13 @@ class MainActivity : ComponentActivity() {
 
         NotificationHelper.createNotificationChannel(this)
     }
-
+// Victor
     fun requestNotificationPermission(jobApplication: JobApplication) {
         shouldScheduleNotification = true
         jobApplicationToSchedule = jobApplication
         requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
     }
-
+    // Victor
     private fun scheduleNotifications(jobApplication: JobApplication) {
         val triggerTime = jobApplication.timestamp?.seconds?.times(1000) ?: System.currentTimeMillis()
         val currentTime = System.currentTimeMillis()
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
             )
         }
     }
-
+    // Victor
     fun scheduleNotificationWithPermissionCheck(jobApplication: JobApplication) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestNotificationPermission(jobApplication)

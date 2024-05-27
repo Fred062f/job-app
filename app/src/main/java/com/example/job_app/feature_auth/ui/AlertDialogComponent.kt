@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
 import com.example.job_app.ui.theme.JobappTheme
-
+// Frederik
 @Composable
 fun AlertDialog(title: String, text: String) {
     val applicationFormViewModel: ApplicationFormViewModel = viewModel()

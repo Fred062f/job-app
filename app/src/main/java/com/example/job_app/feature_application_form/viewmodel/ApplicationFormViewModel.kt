@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.text.ParseException
-
+// Frederik
 class ApplicationFormViewModel(
     private val notificationScheduler: NotificationScheduler
 ) : ViewModel() {

@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.job_app.R
-
+// Jonathan
 val buttonNames = listOf("Ansøgning ->", "CV ->", "Jobsamtalen ->", "Kalender", "Andet")
 val buttonNavigation = listOf("")
 

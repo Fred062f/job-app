@@ -8,7 +8,7 @@ import com.example.job_app.feature_feedback.model.Message
 import com.example.job_app.feature_feedback.util.CHAT_GPT_MODEL
 import retrofit2.Callback
 import retrofit2.Response
-
+// Frederik
 class ChatRepository {
     private val apiClient = ApiClient.getInstance()
 

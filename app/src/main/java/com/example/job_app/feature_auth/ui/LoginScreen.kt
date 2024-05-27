@@ -29,7 +29,7 @@ import com.example.job_app.feature_auth.viewmodel.LoginViewModel
 import com.example.job_app.ui.theme.JobappTheme
 
 
-
+// Victor + Frederik
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(

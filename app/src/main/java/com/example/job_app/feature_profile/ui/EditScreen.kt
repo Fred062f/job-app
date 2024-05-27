@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.R
 import com.example.job_app.ui.theme.JobappTheme
-
+// Victor
 @Composable
 fun EditScreen(
     name: String,

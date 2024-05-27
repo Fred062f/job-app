@@ -3,7 +3,7 @@ package com.example.job_app.feature_feedback.api
 import com.example.job_app.feature_feedback.util.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+// Frederik
 object ApiClient {
     @Volatile
     var INSTANCE: ApiInterface? = null

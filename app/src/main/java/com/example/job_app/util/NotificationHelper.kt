@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.job_app.R
 import java.util.concurrent.atomic.AtomicInteger
-
+// Victor
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
     private val notificationId = AtomicInteger(0)

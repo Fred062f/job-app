@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.suspendCoroutine
-
+// Frederik
 class FirestoreRepository {
     val db = Firebase.firestore
     suspend fun getDataFromFirestore(userId: String):MutableList<JobApplication> {
