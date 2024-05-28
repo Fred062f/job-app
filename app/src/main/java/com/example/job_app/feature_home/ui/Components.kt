@@ -252,7 +252,6 @@ fun ListItem(
                     trailingContent = {
                         IconButton(onClick = {
                             if (userId != null) {
-                                //homeViewModel.deleteData(userId, item.id.toString())
                                 homeViewModel.itemId = item.id.toString()
                                 homeViewModel.shouldShowDialog = true
                             }

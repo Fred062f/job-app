@@ -149,7 +149,7 @@ fun ApplicationFormScreen(
                 }
             }
         }) {
-            Text("Opret ansøgning")
+            Text("Opret min ansøgning")
         }
       }
 
@@ -182,7 +182,7 @@ fun DatePicker(
 
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDateString(it)
-    } ?: "Klik for at vælge dato"
+    } ?: "Klik her for at vælge dato"
 
     DatePickerDialog(
         onDismissRequest = { onDismiss() },
