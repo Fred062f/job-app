@@ -45,7 +45,7 @@ fun RegisterScreen(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
     if (registerViewModel.shouldShowDialog) {
-        AlertDialog(title = "Fejl", text = "Der skete en fejl ved oprettelse af bruger")
+        AuthAlertDialog(title = "Fejl", text = "Der skete en fejl ved oprettelse af bruger")
     }
     Box(contentAlignment = Alignment.TopStart, modifier = Modifier.fillMaxWidth()) {
         IconButton(

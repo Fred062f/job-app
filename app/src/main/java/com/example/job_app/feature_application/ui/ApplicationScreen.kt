@@ -1,6 +1,5 @@
 package com.example.job_app.feature_application.ui
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,11 +20,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_application.viewmodel.ApplicationViewModel
-import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import com.example.job_app.navigation.ui.AlternativeTopNavigationBar
 import com.example.job_app.navigation.ui.BottomNavigationBar
 import com.example.job_app.ui.theme.JobappTheme
 import java.text.SimpleDateFormat
+
 // Frederik
 @Composable
 fun ApplicationScreen(

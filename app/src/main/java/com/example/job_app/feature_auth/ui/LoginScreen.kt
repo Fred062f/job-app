@@ -40,7 +40,7 @@ fun LoginScreen(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val padding = (screenWidth - (screenWidth * 0.8f)) / 2
     if (loginViewModel.shouldShowDialog) {
-        AlertDialog(title = "Fejl", text = "E-mail eller adgangskode er ikke gyldig")
+        AuthAlertDialog(title = "Fejl", text = "E-mail eller adgangskode er ikke gyldig")
     }
     Column(
         modifier = Modifier

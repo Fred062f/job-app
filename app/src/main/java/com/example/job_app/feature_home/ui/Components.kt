@@ -1,6 +1,5 @@
 package com.example.job_app.feature_home.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +17,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,18 +31,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
-import com.example.job_app.ui.theme.JobappTheme
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 // Frederik
 @Composable
 fun DateHeader() {
@@ -85,94 +80,6 @@ fun BottomFloatingActionButton(onClick: () -> Unit) {
         ) {
             Icon(Icons.Filled.Add, "Large floating action button")
         }
-    }
-}
-
-@Composable
-fun TopNavigationBar(
-    navigateToLoginScreen: () -> Unit)
-{
-    val homeViewModel: HomeViewModel = viewModel()
-
-    if (homeViewModel.logoutDialog) {
-        ConfirmDialogComponent(
-            title = "Log ud",
-            text = "Er du sikker på at du vil logge ud af din konto?",
-            onConfirm = {
-                navigateToLoginScreen()
-            }
-        )
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        // Placeholder icon
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.DarkGray,
-            modifier = Modifier
-                .size(55.dp)
-                .padding(8.dp)
-                .clickable(onClick = { })
-                .alpha(0f)
-        )
-        Text(text = "AnsøgNemt", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-            contentDescription = "Profile",
-            tint = Color.DarkGray,
-            modifier = Modifier
-                .size(55.dp)
-                .padding(8.dp)
-                .clickable(onClick = { homeViewModel.logoutDialog = true })
-        )
-    }
-}
-
-@Composable
-fun AlternativeTopNavigationBar(
-    navigateToLoginScreen: () -> Unit,
-    navigateBack: () -> Unit) {
-
-    val homeViewModel: HomeViewModel = viewModel()
-
-    if (homeViewModel.logoutDialog) {
-        ConfirmDialogComponent(
-            title = "Log ud",
-            text = "Er du sikker på at du vil logge ud af din konto?",
-            onConfirm = {
-                navigateToLoginScreen()
-            }
-        )
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.DarkGray,
-            modifier = Modifier
-                .size(55.dp)
-                .padding(8.dp)
-                .clickable(onClick = { navigateBack() })
-        )
-        Text(text = "AnsøgNemt", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color(46, 90, 186), modifier = Modifier.padding(10.dp))
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-            contentDescription = "Logout",
-            tint = Color.DarkGray,
-            modifier = Modifier
-                .size(55.dp)
-                .padding(8.dp)
-                .clickable(onClick = { homeViewModel.logoutDialog = true })
-        )
     }
 }
 

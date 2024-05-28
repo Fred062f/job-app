@@ -1,6 +1,5 @@
 package com.example.job_app.feature_application_form.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +10,7 @@ import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.text.ParseException
+
 // Frederik
 class ApplicationFormViewModel(
     private val notificationScheduler: NotificationScheduler

@@ -1,7 +1,6 @@
 package com.example.job_app.feature_application_form.ui
 
 import android.util.Log
-import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,44 +9,29 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.job_app.MainActivity
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModel
-import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_application_form.viewmodel.ApplicationFormViewModelFactory
 import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
 import com.example.job_app.feature_home.models.JobApplication
-import com.example.job_app.feature_home.repository.FirestoreRepository
-import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
+import com.example.job_app.navigation.ui.AlternativeTopNavigationBar
 import com.example.job_app.navigation.ui.BottomNavigationBar
 import com.example.job_app.util.NotificationHelper
-import com.example.job_app.MainActivity
-import java.text.SimpleDateFormat
-import java.util.*
+
 // Frederik + Jonathan
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,10 +51,10 @@ fun ApplicationFormScreen(
     if (!homeViewModel.userIsAuthorized()) return userIsNotAuthorized()
 
     if (applicationFormViewModel.shouldShowDialogOnJobTitleError) {
-        AlertDialog(title = "Fejl", text = "Du skal indtaste en jobtitel")
+        FormAlertDialog(title = "Fejl", text = "Du skal indtaste en jobtitel")
     }
     if (applicationFormViewModel.shouldShowDialogOnDateError) {
-        AlertDialog(title = "Fejl", text = "Datoen er ikke gyldig")
+        FormAlertDialog(title = "Fejl", text = "Datoen er ikke gyldig")
     }
 
     Column(
@@ -159,70 +143,5 @@ fun ApplicationFormScreen(
         contentAlignment = Alignment.BottomEnd
     ) {
         BottomNavigationBar(navController)
-    }
-}
-// Victor
-// Konverterer millisekunder til en dato streng
-private fun convertMillisToDateString(millis: Long): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
-}
-// Frederik + Jonathan
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePicker(
-    onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
-) {
-    val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
-        override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            return utcTimeMillis >= System.currentTimeMillis()
-        }
-    })
-
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDateString(it)
-    } ?: "Klik her for at vælge dato"
-
-    DatePickerDialog(
-        onDismissRequest = { onDismiss() },
-        confirmButton = {
-            Button(onClick = {
-                onDateSelected(selectedDate)
-                onDismiss()
-            }) {
-                Text(text = "OK")
-            }
-        },
-        dismissButton = {
-            Button(onClick = { onDismiss() }) {
-                Text(text = "Luk")
-            }
-        }
-    ) {
-        DatePicker(state = datePickerState)
-    }
-}
-
-@Composable
-fun DatePickerDialog() {
-    val applicationFormViewModel: ApplicationFormViewModel = viewModel()
-
-    var showDatePicker by remember {
-        mutableStateOf(false)
-    }
-
-    Box(contentAlignment = Alignment.Center) {
-        TextButton(onClick = {  showDatePicker = true }) {
-            Text(text = applicationFormViewModel.date)
-        }
-    }
-
-
-    if (showDatePicker) {
-        DatePicker(
-            onDateSelected = { applicationFormViewModel.date = it },
-            onDismiss = { showDatePicker = false }
-        )
     }
 }

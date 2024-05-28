@@ -1,30 +1,17 @@
 package com.example.job_app.navigation
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import ProfileScreen
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_application.ui.ApplicationScreen
 import com.example.job_app.feature_application_form.ui.ApplicationFormScreen
-import com.example.job_app.feature_application_form.viewmodel.NotificationScheduler
 import com.example.job_app.feature_auth.ui.LoginScreen
 import com.example.job_app.feature_auth.ui.RegisterScreen
 import com.example.job_app.feature_feedback.ui.RequestScreen
 import com.example.job_app.feature_feedback.ui.ResponseScreen
-import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.example.job_app.feature_home.ui.HomeScreen
-import com.example.job_app.feature_profile.ui.EditProfileScreenPreview
-import com.example.job_app.feature_profile.ui.MyDocumentsScreen
 
-// Victor
-@Composable
-fun ApplicationInfoScreen(item: String, content: () -> Unit) {
-
-}
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -36,7 +23,7 @@ fun Navigation() {
                 navigateToRegisterScreen = { navController.navigate("register") }
             )
         }
-// Victor
+// Victor + Frederik
         composable("register") {
             RegisterScreen(
                 onRegisterSuccess = { navController.navigate("home") },
@@ -51,22 +38,6 @@ fun Navigation() {
                 navigateToAddJobApplicationScreen = { navController.navigate("add") },
                 navController = navController
             )
-        }
-// Victor
-        composable("profile") {
-            ProfileScreen(navController = navController)
-        }
-        composable("applicationInfo/{item}") { navBackStackEntry ->
-            val item = navBackStackEntry.arguments?.getString("item")
-            item?.let {
-                ApplicationInfoScreen(item = it) { navController.navigate("profile") }
-            }
-        }
-        composable("editprofile") {
-            EditProfileScreenPreview()
-        }
-        composable("mydocuments") {
-            MyDocumentsScreen()
         }
 // Frederik
         composable("add") {

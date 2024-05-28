@@ -27,8 +27,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.job_app.feature_feedback.viewmodel.ChatViewModel
-import com.example.job_app.feature_home.ui.AlternativeTopNavigationBar
+import com.example.job_app.navigation.ui.AlternativeTopNavigationBar
 import com.example.job_app.navigation.ui.BottomNavigationBar
+
 // Frederik
 @Composable
 fun RequestScreen(navController: NavController) {

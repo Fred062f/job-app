@@ -1,6 +1,5 @@
 package com.example.job_app.feature_home.ui
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,16 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.job_app.feature_auth.ui.AlertDialog
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.navigation.ui.BottomNavigationBar
+import com.example.job_app.navigation.ui.TopNavigationBar
 import com.example.job_app.ui.theme.JobappTheme
+
 // Frederik
 @Composable
 fun HomeScreen(
