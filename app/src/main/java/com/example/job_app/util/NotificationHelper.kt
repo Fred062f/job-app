@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.job_app.R
 import java.util.concurrent.atomic.AtomicInteger
-
+// Victor
 object NotificationHelper {
     private const val CHANNEL_ID = "job_application_channel"
     private val notificationId = AtomicInteger(0)
@@ -45,19 +45,12 @@ object NotificationHelper {
             .setWhen(triggerTime)
             .setAutoCancel(true)
 
-        // Planlægger notifikationen - virke selvom den lyser rødt
+        // Planlægger notifikationen
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         notificationManager.notify(notificationId, builder.build())

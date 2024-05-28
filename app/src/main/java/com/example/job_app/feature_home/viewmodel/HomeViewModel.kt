@@ -11,7 +11,7 @@ import com.example.job_app.feature_home.models.JobApplication
 import com.example.job_app.feature_home.repository.FirestoreRepository
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
-
+// Frederik
 class HomeViewModel : ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
     private val firestoreRepository: FirestoreRepository = FirestoreRepository()

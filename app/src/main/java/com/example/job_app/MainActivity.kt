@@ -18,7 +18,7 @@ import com.example.job_app.ui.theme.JobappTheme
 import com.example.job_app.util.NotificationHelper
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ktx.initialize
-
+// Victor + Frederik
 class MainActivity : ComponentActivity() {
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
 
         requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                Toast.makeText(this, "Notification permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Notifikation adgang givet", Toast.LENGTH_SHORT).show()
                 jobApplicationToSchedule?.let {
                     scheduleNotifications(it)
                 }
             } else {
-                Toast.makeText(this, "Notification permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Notifikation adgang nægtet", Toast.LENGTH_SHORT).show()
             }
             shouldScheduleNotification = false
             jobApplicationToSchedule = null
@@ -52,41 +52,38 @@ class MainActivity : ComponentActivity() {
 
         NotificationHelper.createNotificationChannel(this)
     }
-
+// Victor
     fun requestNotificationPermission(jobApplication: JobApplication) {
         shouldScheduleNotification = true
         jobApplicationToSchedule = jobApplication
         requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
     }
-
+    // Victor
     private fun scheduleNotifications(jobApplication: JobApplication) {
         val triggerTime = jobApplication.timestamp?.seconds?.times(1000) ?: System.currentTimeMillis()
         val currentTime = System.currentTimeMillis()
         val triggerTime24HoursBefore = triggerTime - 24 * 60 * 60 * 1000
-
-        // Log beskeder for debugging
-        println("Current time: $currentTime, Deadline time: $triggerTime, 24 hours before: $triggerTime24HoursBefore")
 
         // Notifikation for 24 timer før deadline
         if (triggerTime24HoursBefore > currentTime) {
             NotificationHelper.scheduleNotification(
                 this,
                 triggerTime24HoursBefore,
-                "Job Application Reminder",
-                "Reminder for your job application: ${jobApplication.jobTitle}",
+                "Husk din ansøgning!",
+                "Du har mindre end 24 timer til at aflevere din ansøgning til: ${jobApplication.jobTitle}",
                 NotificationHelper.getUniqueNotificationId()
             )
         } else {
             NotificationHelper.scheduleNotification(
                 this,
                 currentTime + 5000,  // Planlæg en notifikation om 5 sekunder, hvis deadline er mindre end 24 timer væk
-                "Job Application Reminder",
-                "Reminder for your job application: ${jobApplication.jobTitle}",
+                "Din ansøgning skal afleveres i dag!",
+                "Du har mindre end 24 timer til at aflevere din ansøgning til: ${jobApplication.jobTitle}",
                 NotificationHelper.getUniqueNotificationId()
             )
         }
     }
-
+    // Victor
     fun scheduleNotificationWithPermissionCheck(jobApplication: JobApplication) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestNotificationPermission(jobApplication)

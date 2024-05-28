@@ -46,7 +46,7 @@ import com.example.job_app.ui.theme.JobappTheme
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
+// Frederik
 @Composable
 fun DateHeader() {
     val current = LocalDate.now()

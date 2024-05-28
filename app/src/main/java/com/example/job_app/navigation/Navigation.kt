@@ -20,7 +20,7 @@ import com.example.job_app.feature_home.ui.HomeScreen
 import com.example.job_app.feature_profile.ui.EditProfileScreenPreview
 import com.example.job_app.feature_profile.ui.MyDocumentsScreen
 
-
+// Victor
 @Composable
 fun ApplicationInfoScreen(item: String, content: () -> Unit) {
 
@@ -36,12 +36,14 @@ fun Navigation() {
                 navigateToRegisterScreen = { navController.navigate("register") }
             )
         }
+// Victor
         composable("register") {
             RegisterScreen(
                 onRegisterSuccess = { navController.navigate("home") },
                 navigateToLoginScreen = { navController.navigate("login") }
             )
         }
+// Frederik
         composable("home") {
             HomeScreen(
                 navigateToLoginScreen = { navController.navigate("login") },
@@ -50,6 +52,7 @@ fun Navigation() {
                 navController = navController
             )
         }
+// Victor
         composable("profile") {
             ProfileScreen(navController = navController)
         }
@@ -65,6 +68,7 @@ fun Navigation() {
         composable("mydocuments") {
             MyDocumentsScreen()
         }
+// Frederik
         composable("add") {
             ApplicationFormScreen(
                 navigateToLoginScreen = { navController.navigate("login") },

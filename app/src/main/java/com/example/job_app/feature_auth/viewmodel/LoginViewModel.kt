@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.job_app.feature_auth.repository.AuthRepository
-
+// Frederik
 class LoginViewModel : ViewModel() {
     private val authRepository: AuthRepository = AuthRepository();
 

@@ -48,7 +48,7 @@ import com.example.job_app.util.NotificationHelper
 import com.example.job_app.MainActivity
 import java.text.SimpleDateFormat
 import java.util.*
-
+// Frederik + Jonathan
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationFormScreen(
@@ -161,13 +161,13 @@ fun ApplicationFormScreen(
         BottomNavigationBar(navController)
     }
 }
-
+// Victor
 // Konverterer millisekunder til en dato streng
 private fun convertMillisToDateString(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
-
+// Frederik + Jonathan
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePicker(

@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.job_app.feature_feedback.repository.ChatRepository
 import kotlinx.coroutines.launch
-
+// Frederik
 class ChatViewModel: ViewModel() {
     private val chatRepository = ChatRepository()
 

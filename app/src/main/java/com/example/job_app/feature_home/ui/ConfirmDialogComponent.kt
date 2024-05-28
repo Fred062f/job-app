@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.job_app.feature_home.viewmodel.HomeViewModel
 import com.example.job_app.ui.theme.JobappTheme
+// Frederik
 @Composable
 fun ConfirmDialogComponent(title: String, text: String, onConfirm: () -> Unit) {
     val homeViewModel: HomeViewModel = viewModel()
