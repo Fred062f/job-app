@@ -20,8 +20,8 @@ class ChatViewModel: ViewModel() {
 
     fun createChatCompletion(navController: NavController) {
         viewModelScope.launch {
-            //val message = application
-            val message = message
+            val message = application
+            //val message = message
             chatRepository.createChatCompletion(message, object : ChatRepository.ChatResponseListener {
                 override fun onSuccess(responseMessage: String) {
                     navController.navigate("response/$responseMessage")
@@ -36,7 +36,7 @@ class ChatViewModel: ViewModel() {
 
 
 
-// Besked til at teste API'en
+// Besked der kan bruges til at teste API'en
 const val message = "Jobansøgning til stilling som Marketingkoordinator" +
         "Kære [Virksomhedens navn]," +
         "Jeg skriver for at ansøge om stillingen som marketingkoordinator hos [Virksomhedens navn], som " +
